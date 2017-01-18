@@ -1,6 +1,6 @@
 import {Schema} from 'mongoose';
 
-const gameSchema = new Schema({
+const schema = new Schema({
   homeTeam: {
     type: Schema.Types.ObjectId,
     ref: 'Team'
@@ -13,7 +13,13 @@ const gameSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Week'
   },
+  season: {
+    type: Schema.Types.ObjectId,
+    ref: 'NFLSeason'
+  },
   startTime: Date
 });
+
+const Game = model('Game', schema);
 
 export default Game;

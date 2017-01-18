@@ -1,6 +1,6 @@
-import {Schema} from 'mongoose';
+import {Schema, model} from 'mongoose';
 
-const Week = new Schema({
+const schema = new Schema({
   number: {
     type: Number,
     min: 1,
@@ -10,6 +10,12 @@ const Week = new Schema({
   firstDay: Date,
   lastDay: Date,
   beginTime: Date,
+  season: {
+    type: Schema.Types.ObjectId,
+    ref: 'NFLSeason'
+  },
 });
 
-export default Week;
+const model('Week', schema);
+
+export default Weeek;
