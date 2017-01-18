@@ -1,4 +1,4 @@
-import {Schema} from 'mongoose';
+import mongoose, {Schema} from 'mongoose';
 
 const schema = new Schema({
   conference: {
@@ -8,6 +8,6 @@ const schema = new Schema({
   name: String
 });
 
-const NFLDivision = model('NFLDivision', schema);
+const NFLDivision = mongoose.model('NFLDivision', schema);
 
 export default NFLDivision;

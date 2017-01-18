@@ -1,4 +1,4 @@
-import {Schema} from 'mongoose';
+import mongoose, {Schema} from 'mongoose';
 
 const schema = new Schema({
   abbreviation: {
@@ -14,6 +14,6 @@ const schema = new Schema({
   },
 });
 
-const NFLConference = model('NFLConference', schema);
+const NFLConference = mongoose.model('NFLConference', schema);
 
 export default NFLConference;

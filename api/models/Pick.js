@@ -1,4 +1,4 @@
-import {Schema, model} from 'mongoose';
+import mongoose, {Schema} from 'mongoose';
 
 const schema = new Schema({
   user: {
@@ -32,6 +32,6 @@ const schema = new Schema({
   },
 });
 
-const Pick = model('Pick', schema);
+const Pick = mongoose.model('Pick', schema);
 
 export default Pick;

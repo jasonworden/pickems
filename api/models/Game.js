@@ -1,4 +1,4 @@
-import {Schema} from 'mongoose';
+import mongoose, {Schema} from 'mongoose';
 
 const schema = new Schema({
   homeTeam: {
@@ -20,6 +20,6 @@ const schema = new Schema({
   startTime: Date
 });
 
-const Game = model('Game', schema);
+const Game = mongoose.model('Game', schema);
 
 export default Game;

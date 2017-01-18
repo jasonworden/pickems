@@ -1,4 +1,4 @@
-import {Schema, model} from 'mongoose';
+import mongoose, {Schema} from 'mongoose';
 
 const schema = new Schema({
   number: {
@@ -16,6 +16,6 @@ const schema = new Schema({
   },
 });
 
-const model('Week', schema);
+const mongoose.model('Week', schema);
 
 export default Weeek;

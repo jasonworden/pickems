@@ -1,4 +1,4 @@
-import {Schema, model} from 'mongoose';
+import mongoose, {Schema} from 'mongoose';
 
 const schema = new Schema({
   abbreviation: String,
@@ -14,6 +14,6 @@ const schema = new Schema({
   },
 });
 
-const NFLTeam = model('NFLTeam', schema);
+const NFLTeam = mongoose.model('NFLTeam', schema);
 
 export default NFLTeam;

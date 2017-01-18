@@ -1,9 +1,9 @@
-import {Schema, model} from 'mongoose';
+import mongoose, {Schema} from 'mongoose';
 
 const schema = new Schema({
   year: Date
 });
 
-const NFLSeason = model('NFLSeason', schema);
+const NFLSeason = mongoose.model('NFLSeason', schema);
 
 export default NFLSeason;
