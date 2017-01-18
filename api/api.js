@@ -7,8 +7,7 @@ import {mapUrl} from 'utils/url.js';
 import PrettyError from 'pretty-error';
 import http from 'http';
 import SocketIo from 'socket.io';
-import mongoose from 'mongoose';
-import connectMongo from 'connect-mongo';
+import {connectToMongoDB} from './database';
 
 const pretty = new PrettyError();
 const app = express();
@@ -26,14 +25,7 @@ app.use(session({
 }));
 app.use(bodyParser.json());
 
-// CONNECT TO MONGODB
-const MongoStore = connectMongo(session);
-mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI);
-mongoose.connection.on('error', () => {
-  console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
-  process.exit();
-});
+connectToMongoDB();
 
 app.use((req, res) => {
   const splittedUrlPath = req.url.split('?')[0].split('/').slice(1);
