@@ -10,6 +10,10 @@ import {reducer as form} from 'redux-form';
 import info from './info';
 import widgets from './widgets';
 
+import schedule from './schedule';
+import picks from './picks';
+import teams from './teams';
+
 export default combineReducers({
   routing: routerReducer,
   reduxAsyncConnect,
@@ -22,5 +26,9 @@ export default combineReducers({
   }),
   info,
   pagination,
-  widgets
+  widgets,
+
+  schedule,
+  picks,
+  teams
 });
