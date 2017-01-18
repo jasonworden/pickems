@@ -63,7 +63,8 @@
         "NODE_ENV": "development",
         "PORT": 3000,
         "APIPORT": 3030,
-        "MONGODB_URI": "mongodb://localhost:27017/test"
+        "MONGODB_URI": "mongodb://localhost:27017/pickems",
+        "MONGODB_NAME": "pickems"
       }
     },
     "start-dev-api": {
@@ -72,7 +73,8 @@
         "NODE_PATH": "./api",
         "NODE_ENV": "development",
         "APIPORT": 3030,
-        "MONGODB_URI": "mongodb://localhost:27017/test"
+        "MONGODB_URI": "mongodb://localhost:27017/pickems",
+        "MONGODB_NAME": "pickems"
       }
     },
     "watch-client": {
@@ -120,8 +122,10 @@
     "lru-memoize": "^1.0.0",
     "map-props": "^1.0.0",
     "mongoose": "^4.7.7",
+    "mongoose-simple-fixtures": "^1.9.3",
     "multireducer": "^2.0.0",
     "piping": "^0.3.0",
+    "pow-mongodb-fixtures": "^0.14.0",
     "pretty-error": "^1.2.0",
     "react": "0.14.8",
     "react-bootstrap": "^0.28.1",
