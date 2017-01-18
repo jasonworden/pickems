@@ -20,14 +20,14 @@ export default class PickedTeams extends Component {
     this.renderTeam = this.renderTeam.bind(this);
   }
 
-  renderTeam(abbrev) {
+  renderTeam(team) {
     return (
-      <span key={abbrev}>
+      <span key={team.abbreviation}>
         <Label
           style={{marginRight: 5, marginBottom: 5}}
-          bsStyle={this.props.pickedTeams.indexOf(abbrev) !== -1 ? 'default' : 'info'}
+          bsStyle={this.props.pickedTeams.indexOf(team.abbreviation) !== -1 ? 'default' : 'info'}
         >
-          {abbrev}
+          {team.abbreviation}
         </Label>
       </span>
     );
@@ -36,8 +36,8 @@ export default class PickedTeams extends Component {
   render() {
     const style = require('./TeamsList.scss');
     const teams = [];
-    _.forEach(this.props.allTeams, (fullName, abbrev) => {
-      teams.push(this.renderTeam(abbrev));
+    _.forEach(this.props.allTeams, team => {
+      teams.push(this.renderTeam(team));
       teams.push(' ');
     });
 

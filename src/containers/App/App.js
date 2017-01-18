@@ -8,6 +8,7 @@ import NavItem from 'react-bootstrap/lib/NavItem';
 import Helmet from 'react-helmet';
 import { isLoaded as isInfoLoaded, load as loadInfo } from 'redux/modules/info';
 import { isLoaded as isAuthLoaded, load as loadAuth, logout } from 'redux/modules/auth';
+import { getTeams } from 'redux/modules/teams';
 import { InfoBar } from 'components';
 import { push } from 'react-router-redux';
 import config from '../../config';
@@ -29,19 +30,28 @@ import { asyncConnect } from 'redux-async-connect';
 }])
 @connect(
   state => ({user: state.auth.user}),
-  {logout, pushState: push}
+  {
+    logout,
+    pushState: push,
+    getTeams,
+  }
 )
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
     user: PropTypes.object,
     logout: PropTypes.func.isRequired,
-    pushState: PropTypes.func.isRequired
+    pushState: PropTypes.func.isRequired,
+    getTeams: PropTypes.func.isRequired
   };
 
   static contextTypes = {
     store: PropTypes.object.isRequired
   };
+
+  componentWillMount() {
+    this.props.getTeams();
+  }
 
   componentWillReceiveProps(nextProps) {
     if (!this.props.user && nextProps.user) {
