@@ -62,7 +62,8 @@
         "NODE_PATH": "./src",
         "NODE_ENV": "development",
         "PORT": 3000,
-        "APIPORT": 3030
+        "APIPORT": 3030,
+        "MONGODB_URI": "mongodb://localhost:27017/test"
       }
     },
     "start-dev-api": {
@@ -70,7 +71,8 @@
       "env": {
         "NODE_PATH": "./api",
         "NODE_ENV": "development",
-        "APIPORT": 3030
+        "APIPORT": 3030,
+        "MONGODB_URI": "mongodb://localhost:27017/test"
       }
     },
     "watch-client": {
@@ -104,6 +106,7 @@
     "babel-runtime": "^6.3.19",
     "body-parser": "^1.14.1",
     "compression": "^1.6.0",
+    "connect-mongo": "^1.3.2",
     "express": "^4.13.3",
     "express-session": "^1.12.1",
     "file-loader": "^0.8.5",
@@ -116,6 +119,7 @@
     "lodash": "^4.17.4",
     "lru-memoize": "^1.0.0",
     "map-props": "^1.0.0",
+    "mongoose": "^4.7.7",
     "multireducer": "^2.0.0",
     "piping": "^0.3.0",
     "pretty-error": "^1.2.0",
