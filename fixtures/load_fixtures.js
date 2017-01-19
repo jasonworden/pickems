@@ -63,6 +63,7 @@ _.forEach(games, function(game) {
   game.homeTeam = nflteams[game.homeTeam]._id;
   game.awayTeam = nflteams[game.awayTeam]._id;
   game.week = weeks[game.week]._id;
+  game.season = nflseasons["2016"]._id;
 });
 
 var data = {
