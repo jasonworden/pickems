@@ -1,9 +1,9 @@
 import _ from 'lodash';
 
-export const createKeyedObjectFromArray = (arr, objKey) => {
+export const createObjectFromArrayOfObjects = (arr, key) => {
   let obj = {};
   _.forEach(arr, item => {
-    obj[item[objKey]] = item;
+    obj[item[key]] = item;
   });
   return obj;
 };
