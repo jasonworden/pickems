@@ -1,0 +1,72 @@
+[
+  {
+    "awayTeam": "PHI",
+    "homeTeam": "GB",
+    "week": 1
+  },
+  {
+    "awayTeam": "NYG",
+    "homeTeam": "DAL",
+    "week": 1
+  },
+  {
+    "awayTeam": "DEN",
+    "homeTeam": "SEA",
+    "week": 1
+  },
+  {
+    "awayTeam": "BUF",
+    "homeTeam": "CAR",
+    "week": 1
+  },
+  {
+    "awayTeam": "PIT",
+    "homeTeam": "NE",
+    "week": 1
+  },
+  {
+    "homeTeam": "MIA",
+    "awayTeam": "HOU",
+    "week": 1
+  },
+  {
+    "homeTeam": "PIT",
+    "awayTeam": "PHI",
+    "week": 2
+  },
+  {
+    "homeTeam": "GB",
+    "awayTeam": "DET",
+    "week": 2
+  },
+  {
+    "homeTeam": "SF",
+    "awayTeam": "OAK",
+    "week": 2
+  },
+  {
+    "homeTeam": "LAR",
+    "awayTeam": "LAC",
+    "week": 2
+  },
+  {
+    "homeTeam": "DEN",
+    "awayTeam": "TEN",
+    "week": 3
+  },
+  {
+    "homeTeam": "NE",
+    "awayTeam": "BUF",
+    "week": 3
+  },
+  {
+    "homeTeam": "ATL",
+    "awayTeam": "GB",
+    "week": 3
+  },
+  {
+    "homeTeam": "CIN",
+    "awayTeam": "CLE",
+    "week": 3
+  }
+]

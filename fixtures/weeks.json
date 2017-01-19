@@ -1,0 +1,70 @@
+[
+  {
+    "number": 1,
+    "arePicksAllowed": true
+  },
+  {
+    "number": 2,
+    "arePicksAllowed": true
+  },
+  {
+    "number": 3,
+    "arePicksAllowed": true
+  },
+  {
+    "number": 4,
+    "arePicksAllowed": true
+  },
+  {
+    "number": 5,
+    "arePicksAllowed": true
+  },
+  {
+    "number": 6,
+    "arePicksAllowed": true
+  },
+  {
+    "number": 7,
+    "arePicksAllowed": true
+  },
+  {
+    "number": 8,
+    "arePicksAllowed": true
+  },
+  {
+    "number": 9,
+    "arePicksAllowed": true
+  },
+  {
+    "number": 10,
+    "arePicksAllowed": true
+  },
+  {
+    "number": 11,
+    "arePicksAllowed": true
+  },
+  {
+    "number": 12,
+    "arePicksAllowed": true
+  },
+  {
+    "number": 13,
+    "arePicksAllowed": true
+  },
+  {
+    "number": 14,
+    "arePicksAllowed": true
+  },
+  {
+    "number": 15,
+    "arePicksAllowed": true
+  },
+  {
+    "number": 16,
+    "arePicksAllowed": true
+  },
+  {
+    "number": 17,
+    "arePicksAllowed": false
+  }
+]

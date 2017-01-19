@@ -1,0 +1,195 @@
+[
+  {
+    "abbreviation": "ARI",
+    "location": "Arizona",
+    "name": "Cardinals",
+    "conference": "NFC"
+  },
+  {
+    "abbreviation": "ATL",
+    "location": "Atlanta",
+    "name": "Falcons",
+    "conference": "NFC"
+  },
+  {
+    "abbreviation": "BAL",
+    "location": "Baltimore",
+    "name": "Ravens",
+    "conference": "AFC"
+  },
+  {
+    "abbreviation": "BUF",
+    "location": "Buffalo",
+    "name": "Bills",
+    "conference": "AFC"
+  },
+  {
+    "abbreviation": "CAR",
+    "location": "Carolina",
+    "name": "Panthers",
+    "conference": "NFC"
+  },
+  {
+    "abbreviation": "CHI",
+    "location": "Chicago",
+    "name": "Bears",
+    "conference": "NFC"
+  },
+  {
+    "abbreviation": "CIN",
+    "location": "Cincinnati",
+    "name": "Bengals",
+    "conference": "AFC"
+  },
+  {
+    "abbreviation": "CLE",
+    "location": "Cleveland",
+    "name": "Browns",
+    "conference": "AFC"
+  },
+  {
+    "abbreviation": "DAL",
+    "location": "Dallas",
+    "name": "Cowboys",
+    "conference": "NFC"
+  },
+  {
+    "abbreviation": "DEN",
+    "location": "Denver",
+    "name": "Broncos",
+    "conference": "AFC"
+  },
+  {
+    "abbreviation": "DET",
+    "location": "Detroit",
+    "name": "Lions",
+    "conference": "NFC"
+  },
+  {
+    "abbreviation": "GB",
+    "location": "Green Bay",
+    "name": "Packers",
+    "conference": "NFC"
+  },
+  {
+    "abbreviation": "HOU",
+    "location": "Houston",
+    "name": "Texans",
+    "conference": "AFC"
+  },
+  {
+    "abbreviation": "IND",
+    "location": "Indianapolis",
+    "name": "Colts",
+    "conference": "AFC"
+  },
+  {
+    "abbreviation": "JAX",
+    "location": "Jacksonville",
+    "name": "Jaguars",
+    "conference": "AFC"
+  },
+  {
+    "abbreviation": "KC",
+    "location": "Kansas City",
+    "name": "Chiefs",
+    "conference": "AFC"
+  },
+  {
+    "abbreviation": "LAC",
+    "location": "Los Angeles",
+    "name": "Chargers",
+    "conference": "AFC"
+  },
+  {
+    "abbreviation": "LAR",
+    "location": "Los Angeles",
+    "name": "Rams",
+    "conference": "NFC"
+  },
+  {
+    "abbreviation": "MIA",
+    "location": "Miami",
+    "name": "Dolphins",
+    "conference": "AFC"
+  },
+  {
+    "abbreviation": "MIN",
+    "location": "Minnesota",
+    "name": "Vikings",
+    "conference": "NFC"
+  },
+  {
+    "abbreviation": "NE",
+    "location": "New England",
+    "name": "Patriots",
+    "conference": "AFC"
+  },
+  {
+    "abbreviation": "NO",
+    "location": "New Orleans",
+    "name": "Saints",
+    "conference": "NFC"
+  },
+  {
+    "abbreviation": "NYG",
+    "location": "New York",
+    "name": "Giants",
+    "conference": "NFC"
+  },
+  {
+    "abbreviation": "NYJ",
+    "location": "New York",
+    "name": "Jets",
+    "conference": "AFC"
+  },
+  {
+    "abbreviation": "OAK",
+    "location": "Oakland",
+    "name": "Raiders",
+    "conference": "AFC"
+  },
+  {
+    "abbreviation": "PHI",
+    "location": "Philadelphia",
+    "name": "Eagles",
+    "conference": "NFC"
+  },
+  {
+
+    "abbreviation": "PIT",
+    "location": "Pittsburgh",
+    "name": "Steelers",
+    "conference": "AFC"
+  },
+  {
+    "abbreviation": "SEA",
+    "location": "Seattle",
+    "name": "Seahawks",
+    "conference": "NFC"
+  },
+  {
+    "abbreviation": "SF",
+    "location": "San Francisco",
+    "name": "49ers",
+    "conference": "NFC"
+  },
+  {
+    "abbreviation": "TB",
+    "location": "Tampa Bay",
+    "name": "Buccaneers",
+    "conference": "NFC"
+  },
+  {
+    "abbreviation": "TEN",
+    "location": "Tennessee",
+    "name": "Titans",
+    "conference": "AFC"
+  },
+  {
+    "abbreviation": "WSH",
+    "location": "Washington",
+    "name": "Redskins",
+    "conference": "NFC"
+  }
+]
