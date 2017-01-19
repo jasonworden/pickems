@@ -1,7 +1,7 @@
 import mongoose, {Schema} from 'mongoose';
 
 const schema = new Schema({
-  year: Date
+  year: Number
 });
 
 const NFLSeason = mongoose.model('NFLSeason', schema);

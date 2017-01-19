@@ -5,7 +5,7 @@ const schema = new Schema({
     type: String,
     enum: ['AFC', 'NFC']
   },
-  fullName: {
+  name: {
     type: String,
     enum: [
       'American Football Conference',

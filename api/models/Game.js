@@ -1,11 +1,11 @@
 import mongoose, {Schema} from 'mongoose';
 
 const schema = new Schema({
-  homeTeam: {
+  awayTeam: {
     type: Schema.Types.ObjectId,
     ref: 'Team'
   },
-  awayTeam: {
+  homeTeam: {
     type: Schema.Types.ObjectId,
     ref: 'Team'
   },
