@@ -7,7 +7,8 @@ const LOAD_TEAMS_FAIL = 'LOAD_TEAMS_FAIL';
 const initialState = {
   all: {},
   loaded: false,
-  loading: false
+  loading: true,
+  loadingError: null,
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -15,10 +16,9 @@ export default function reducer(state = initialState, action = {}) {
     case LOAD_TEAMS:
       return {
         ...state,
-        loading: true
+        initialState
       };
     case LOAD_TEAMS_SUCCESS:
-      debugger;
       return {
         ...state,
         loading: false,
@@ -26,13 +26,10 @@ export default function reducer(state = initialState, action = {}) {
         all: action.result
       };
     case LOAD_TEAMS_FAIL:
-      debugger;
       return {
         ...state,
         loading: false,
-        loaded: false,
-        teamsError: action.error,
-        all: {}
+        loadingError: action.error,
       };
     default:
       return state;
