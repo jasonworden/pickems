@@ -16,6 +16,6 @@ const schema = new Schema({
   },
 });
 
-const mongoose.model('Week', schema);
+const Week = mongoose.model('Week', schema);
 
-export default Weeek;
+export default Week;
