@@ -136,7 +136,12 @@ export default class WeeksTabs extends Component {
     _.forEach(this.props.weeks, week => {
       weekTabs.push(
         <Tab eventKey={week.number} title={week.number} key={week.number}>
-          <h5>Week <strong>{week.number}</strong> games</h5>
+          <h4>
+            Week <strong>{week.number}</strong> games{' '}
+            {week.isLocked &&
+            <Label bsStyle="danger">PICKS LOCKED</Label>
+            }
+          </h4>
           <ul className="list-unstyled">
             {this.props.games[week.number].map(
               game => this.renderGame(game)
