@@ -1,54 +1,56 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
+import _ from 'lodash';
 import Tabs from 'react-bootstrap/lib/Tabs';
 import Tab from 'react-bootstrap/lib/Tab';
 import Button from 'react-bootstrap/lib/Button';
-import teams from '../../utils/teams';
 import * as picksActions from '../../redux/modules/picks';
 
 @connect(
   state => ({
     currentWeek: state.schedule.currentWeek,
-    schedule: state.schedule.weeks,
+    displayedWeek: state.schedule.displayedWeek,
+    weeks: state.schedule.weeks,
+    games: state.schedule.games,
 
     picksByWeek: state.picks.weeks,
     pickedTeams: state.picks.pickedTeams
   }),
   picksActions
 )
-export default class PicksHome extends Component {
+export default class WeeksTabs extends Component {
 
   static propTypes = {
     actions: PropTypes.object,
     currentWeek: PropTypes.number.isRequired,
-    schedule: PropTypes.object.isRequired,
-    totalWeeks: PropTypes.number.isRequired,
+    displayedWeek: PropTypes.number.isRequired,
+    weeks: PropTypes.object.isRequired,
+    games: PropTypes.object.isRequired,
+
     picksByWeek: PropTypes.object.isRequired,
     pickedTeams: PropTypes.array.isRequired,
+
     pickWinner: PropTypes.func.isRequired,
-    unpickWinner: PropTypes.func.isRequired
+    unpickWinner: PropTypes.func.isRequired,
   }
 
   constructor(props) {
     super(props);
     this.openWeekTab = this.openWeekTab.bind(this);
     this.toggleWinner = this.toggleWinner.bind(this);
-    this.renderMatchup = this.renderMatchup.bind(this);
-    this.renderMatchupTeam = this.renderMatchupTeam.bind(this);
+    this.renderGame = this.renderGame.bind(this);
+    this.renderTeam = this.renderTeam.bind(this);
     this.isTeamPickedInDisplayedWeek = this.isTeamPickedInDisplayedWeek.bind(this);
     this.isTeamPickedInSeason = this.isTeamPickedInSeason.bind(this);
-    this.state = {
-      displayedWeek: props.currentWeek
-    };
   }
 
   openWeekTab(weekNum) {
     event.preventDefault();
-    this.setState({displayedWeek: weekNum});
+    this.displayWeek(weekNum);
   }
 
   isTeamPickedInDisplayedWeek(teamAbbrev) {
-    return this.props.picksByWeek[this.state.displayedWeek].indexOf(teamAbbrev) !== -1;
+    return this.props.picksByWeek[this.props.displayedWeek].indexOf(teamAbbrev) !== -1;
   }
 
   isTeamPickedInSeason(teamAbbrev) {
@@ -59,7 +61,7 @@ export default class PicksHome extends Component {
     if (pickTeam && this.isTeamPickedInDisplayedWeek(teamAbbrev)) {
       return;
     }
-    if (pickTeam && this.props.picksByWeek[this.state.displayedWeek].length === 2) {
+    if (pickTeam && this.props.picksByWeek[this.props.displayedWeek].length === 2) {
       alert('Cannot pick more than 2 teams each week');
       return;
     }
@@ -69,32 +71,31 @@ export default class PicksHome extends Component {
     }
 
     if (pickTeam) {
-      this.props.pickWinner(this.state.displayedWeek, teamAbbrev);
+      this.props.pickWinner(this.props.displayedWeek, teamAbbrev);
     } else {
-      this.props.unpickWinner(this.state.displayedWeek, teamAbbrev);
+      this.props.unpickWinner(this.props.displayedWeek, teamAbbrev);
     }
   }
 
-  renderMatchupTeam(teamAbbrev) {
-    const longTeamName = teams[teamAbbrev];
-    const isPicked = this.isTeamPickedInDisplayedWeek(teamAbbrev);
+  renderTeam(team) {
+    const isPicked = this.isTeamPickedInDisplayedWeek(team.abbreviation);
     return (
       <Button
-        key={teamAbbrev}
+        key={team._id}
         bsStyle={isPicked ? 'info' : 'default'}
-        onClick={() => this.toggleWinner(teamAbbrev, !isPicked)}
+        onClick={() => this.toggleWinner(team.abbreviation, !isPicked)}
       >
-        {longTeamName}
+        {team.location + ' ' + team.name}
       </Button>
     );
   }
 
-  renderMatchup(awayAbbrev, homeAbbrev) {
+  renderGame(game) {
     return (
-      <li key={`${awayAbbrev}@${homeAbbrev}`}>
-        {this.renderMatchupTeam(awayAbbrev)}
+      <li key={game._id}>
+        {this.renderTeam(game.awayTeam)}
         <span>{' @ '}</span>
-        {this.renderMatchupTeam(homeAbbrev)}
+        {this.renderTeam(game.homeTeam)}
       </li>
     );
   }
@@ -102,22 +103,24 @@ export default class PicksHome extends Component {
   render() {
     // const style = require('./WeeksTabs.scss');
     const weekTabs = [];
-    for (let weekNum = 1; weekNum <= this.props.totalWeeks; ++weekNum) {
+    _.forEach(this.props.weeks, week => {
       weekTabs.push(
-        <Tab eventKey={weekNum} title={weekNum}>
-          <h5>Week {weekNum} games</h5>
+        <Tab eventKey={week.number} title={week.number} key={week.number}>
+          <h5>Week <strong>{week.number}</strong> games</h5>
           <ul className="list-unstyled">
-            {this.props.schedule[weekNum].map(
-              matchup => this.renderMatchup(matchup[0], matchup[1])
+            {this.props.games[week.number].map(
+              game => this.renderGame(game)
             )}
           </ul>
         </Tab>
       );
-    }
+    });
+
+    debugger;
 
     return (
       <Tabs
-        activeKey={this.state.displayedWeek}
+        activeKey={this.props.displayedWeek}
         onSelect={this.openWeekTab}
         id="week-tabs"
       >
