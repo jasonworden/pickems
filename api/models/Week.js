@@ -7,6 +7,10 @@ const schema = new Schema({
     max: 17
   },
   arePicksAllowed: Boolean,
+  isLocked: {
+    type: Boolean,
+    default: false
+  },
   firstDay: Date,
   lastDay: Date,
   beginTime: Date,
