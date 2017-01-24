@@ -8,7 +8,8 @@ import NavItem from 'react-bootstrap/lib/NavItem';
 import Helmet from 'react-helmet';
 import { isLoaded as isInfoLoaded, load as loadInfo } from 'redux/modules/info';
 import { isLoaded as isAuthLoaded, load as loadAuth, logout } from 'redux/modules/auth';
-import { getTeams } from 'redux/modules/teams';
+import { loadTeams } from 'redux/modules/teams';
+import { loadSchedule } from 'redux/modules/schedule';
 import { InfoBar } from 'components';
 import { push } from 'react-router-redux';
 import config from '../../config';
@@ -33,7 +34,8 @@ import { asyncConnect } from 'redux-async-connect';
   {
     logout,
     pushState: push,
-    getTeams,
+    loadTeams,
+    loadSchedule,
   }
 )
 export default class App extends Component {
@@ -42,7 +44,8 @@ export default class App extends Component {
     user: PropTypes.object,
     logout: PropTypes.func.isRequired,
     pushState: PropTypes.func.isRequired,
-    getTeams: PropTypes.func.isRequired
+    loadTeams: PropTypes.func.isRequired,
+    loadSchedule: PropTypes.func.isRequired,
   };
 
   static contextTypes = {
@@ -50,7 +53,8 @@ export default class App extends Component {
   };
 
   componentWillMount() {
-    this.props.getTeams();
+    this.props.loadTeams();
+    this.props.loadSchedule();
   }
 
   componentWillReceiveProps(nextProps) {

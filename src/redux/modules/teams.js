@@ -1,5 +1,3 @@
-// import teams from '../../utils/teams';
-
 const LOAD_TEAMS = 'LOAD_TEAMS';
 const LOAD_TEAMS_SUCCESS = 'LOAD_TEAMS_SUCCESS';
 const LOAD_TEAMS_FAIL = 'LOAD_TEAMS_FAIL';
@@ -36,7 +34,7 @@ export default function reducer(state = initialState, action = {}) {
   }
 }
 
-export function getTeams() {
+export function loadTeams() {
   return {
     types: [LOAD_TEAMS, LOAD_TEAMS_SUCCESS, LOAD_TEAMS_FAIL],
     promise: (client) => client.get('/teams')
