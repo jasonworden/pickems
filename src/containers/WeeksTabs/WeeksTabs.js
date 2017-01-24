@@ -4,6 +4,7 @@ import _ from 'lodash';
 import Tabs from 'react-bootstrap/lib/Tabs';
 import Tab from 'react-bootstrap/lib/Tab';
 import Button from 'react-bootstrap/lib/Button';
+import Label from 'react-bootstrap/lib/Label';
 import * as picksActions from '../../redux/modules/picks';
 import * as scheduleActions from '../../redux/modules/schedule';
 
@@ -52,6 +53,7 @@ export default class WeeksTabs extends Component {
     this.isTeamPickedInDisplayedWeek = this.isTeamPickedInDisplayedWeek.bind(this);
     this.isTeamPickedInSeason = this.isTeamPickedInSeason.bind(this);
     this.isTeamPickLocked = this.isTeamPickLocked.bind(this);
+    this.isDisplayedWeekLocked = this.isDisplayedWeekLocked.bind(this);
   }
 
   openWeekTab(weekNum) {
@@ -66,14 +68,22 @@ export default class WeeksTabs extends Component {
   }
 
   isTeamPickedInSeason(teamAbbrev) {
-    return this.props.pickedTeams.indexOf(teamAbbrev) !== -1;
+    return (this.props.pickedTeams.indexOf(teamAbbrev) !== -1);
   }
 
   isTeamPickLocked(teamAbbrev) {
-    return this.props.lockedTeams.indexOf(teamAbbrev) !== -1;
+    return (this.props.lockedTeams.indexOf(teamAbbrev) !== -1);
+  }
+
+  isDisplayedWeekLocked() {
+    return (this.props.displayedWeek < this.props.currentWeek);
   }
 
   toggleWinner(teamAbbrev, pickTeam) {
+    if (this.isDisplayedWeekLocked()) {
+      alert('This week is locked already');
+      return;
+    }
     if (this.isTeamPickLocked(teamAbbrev)) {
       alert('This team is in a locked pick already.');
       return;
