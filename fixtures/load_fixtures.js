@@ -11,6 +11,7 @@ var path = require('path');
 var mongoFixtures = require('pow-mongodb-fixtures');
 var _ = require('lodash');
 
+//TODO: Script only works if you run it from its own dir. Fix this.
 console.log('dirname:', __dirname);
 
 var fixtures = mongoFixtures.connect('pickems');
@@ -74,11 +75,9 @@ var data = {
   nflseasons: nflseasons
 };
 
-console.log('About to clear and load fixtures');
+console.log('About to clear and load fixtures...');
 
 fixtures.clearAndLoad(data, function() {
-  console.log('Done! ' +
-    'The process has not been closing after this, but should have ' +
-    'ran successful if you are seeing this. (Should be safe to close now.)'
-  );
+  console.log('Done!');
+  process.exit();
 });
