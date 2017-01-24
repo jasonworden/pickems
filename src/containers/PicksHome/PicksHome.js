@@ -11,10 +11,10 @@ const PicksHome = () => {
     <div className={style.picksHome + ' container'}>
       <h2 className={style}>My Picks</h2>
       <Row>
-        <Col md={8} lg={9}>
-          <WeeksTabs totalWeeks={3} />
+        <Col sm={8} lg={9} key="WeeksTabs">
+          <WeeksTabs />
         </Col>
-        <Col md={4} lg={3}>
+        <Col sm={4} lg={3} key="PicksByWeek">
           <PicksByWeek />
         </Col>
       </Row>
