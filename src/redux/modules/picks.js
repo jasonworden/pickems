@@ -4,8 +4,8 @@ const UNPICK_WINNER = 'UNPICK_WINNER';
 const initialState = {
   weeks: {
     1: [ 'PHI', 'GB' ],
-    2: [ 'NYJ', 'ATL' ],
-    3: [], // [ 'BUF', 'DAL' ],
+    2: [ 'PIT' ],
+    3: [],
     4: [],
     5: [],
     6: [],
@@ -20,7 +20,8 @@ const initialState = {
     15: [],
     16: []
   },
-  pickedTeams: ['PHI', 'GB', 'NYJ', 'ATL']
+  pickedTeams: ['PHI', 'GB', 'NYJ', 'ATL'],
+  lockedTeams: ['PHI', 'GB'],
 };
 
 export default function reducer(state = initialState, action = {}) {
