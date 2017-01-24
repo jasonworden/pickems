@@ -15,11 +15,12 @@ import * as scheduleActions from '../../redux/modules/schedule';
     games: state.schedule.games,
 
     picksByWeek: state.picks.weeks,
-    pickedTeams: state.picks.pickedTeams
+    pickedTeams: state.picks.pickedTeams,
+    lockedTeams: state.picks.lockedTeams,
   }),
   {
     ...picksActions,
-    ...scheduleActions
+    ...scheduleActions,
   }
 )
 export default class WeeksTabs extends Component {
@@ -33,6 +34,7 @@ export default class WeeksTabs extends Component {
 
     picksByWeek: PropTypes.object.isRequired,
     pickedTeams: PropTypes.array.isRequired,
+    lockedTeams: PropTypes.array.isRequired,
 
     pickWinner: PropTypes.func.isRequired,
     unpickWinner: PropTypes.func.isRequired,
@@ -49,6 +51,7 @@ export default class WeeksTabs extends Component {
     this.renderTeam = this.renderTeam.bind(this);
     this.isTeamPickedInDisplayedWeek = this.isTeamPickedInDisplayedWeek.bind(this);
     this.isTeamPickedInSeason = this.isTeamPickedInSeason.bind(this);
+    this.isTeamPickLocked = this.isTeamPickLocked.bind(this);
   }
 
   openWeekTab(weekNum) {
@@ -66,7 +69,15 @@ export default class WeeksTabs extends Component {
     return this.props.pickedTeams.indexOf(teamAbbrev) !== -1;
   }
 
+  isTeamPickLocked(teamAbbrev) {
+    return this.props.lockedTeams.indexOf(teamAbbrev) !== -1;
+  }
+
   toggleWinner(teamAbbrev, pickTeam) {
+    if (this.isTeamPickLocked(teamAbbrev)) {
+      alert('This team is in a locked pick already.');
+      return;
+    }
     if (pickTeam && this.isTeamPickedInDisplayedWeek(teamAbbrev)) {
       return;
     }

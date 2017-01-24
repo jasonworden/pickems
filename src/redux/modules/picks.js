@@ -20,7 +20,7 @@ const initialState = {
     15: [],
     16: []
   },
-  pickedTeams: ['PHI', 'GB', 'NYJ', 'ATL'],
+  pickedTeams: ['PHI', 'GB', 'PIT' ],
   lockedTeams: ['PHI', 'GB'],
 };
 
