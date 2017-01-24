@@ -1,7 +1,8 @@
 [
   {
     "number": 1,
-    "arePicksAllowed": true
+    "arePicksAllowed": true,
+    "isLocked": true
   },
   {
     "number": 2,
