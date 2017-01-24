@@ -9,7 +9,6 @@ const PicksHome = () => {
   const style = require('./PicksHome.scss');
   return (
     <div className={style.picksHome + ' container'}>
-      <h2 className={style}>My Picks</h2>
       <Row>
         <Col sm={8} lg={9} key="WeeksTabs">
           <WeeksTabs />
