@@ -3,15 +3,15 @@ import mongoose, {Schema} from 'mongoose';
 const schema = new Schema({
   awayTeam: {
     type: Schema.Types.ObjectId,
-    ref: 'Team'
+    ref: 'NFLTeam'
   },
   homeTeam: {
     type: Schema.Types.ObjectId,
-    ref: 'Team'
+    ref: 'NFLTeam'
   },
   winner: {
     type: Schema.Types.ObjectId,
-    ref: 'Team'
+    ref: 'NFLTeam'
   },
   week: {
     type: Schema.Types.ObjectId,
@@ -24,11 +24,11 @@ const schema = new Schema({
   startTime: Date,
   isDecided: {
     type: Boolean,
-    default: False
+    default: false
   },
   hadOvertime: {
     type: Boolean,
-    defalt: False
+    defalt: false
   },
 });
 
