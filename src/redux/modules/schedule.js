@@ -22,7 +22,6 @@ export default function reducer(state = initialState, action = {}) {
         initialState
       };
     case LOAD_SCHEDULE_SUCCESS:
-      debugger;
       return {
         ...state,
         loading: false,

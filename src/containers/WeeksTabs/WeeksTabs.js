@@ -5,6 +5,7 @@ import Tabs from 'react-bootstrap/lib/Tabs';
 import Tab from 'react-bootstrap/lib/Tab';
 import Button from 'react-bootstrap/lib/Button';
 import * as picksActions from '../../redux/modules/picks';
+import * as scheduleActions from '../../redux/modules/schedule';
 
 @connect(
   state => ({
@@ -16,7 +17,10 @@ import * as picksActions from '../../redux/modules/picks';
     picksByWeek: state.picks.weeks,
     pickedTeams: state.picks.pickedTeams
   }),
-  picksActions
+  {
+    ...picksActions,
+    ...scheduleActions
+  }
 )
 export default class WeeksTabs extends Component {
 
@@ -32,6 +36,9 @@ export default class WeeksTabs extends Component {
 
     pickWinner: PropTypes.func.isRequired,
     unpickWinner: PropTypes.func.isRequired,
+
+    displayWeek: PropTypes.func.isRequired,
+    // loadSchedule: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -45,12 +52,14 @@ export default class WeeksTabs extends Component {
   }
 
   openWeekTab(weekNum) {
-    event.preventDefault();
-    this.displayWeek(weekNum);
+    this.props.displayWeek(weekNum);
   }
 
-  isTeamPickedInDisplayedWeek(teamAbbrev) {
-    return this.props.picksByWeek[this.props.displayedWeek].indexOf(teamAbbrev) !== -1;
+  isTeamPickedInDisplayedWeek(team) {
+    return (
+      this.props.picksByWeek[this.props.displayedWeek].indexOf(team.abbreviation)
+        !== -1
+    );
   }
 
   isTeamPickedInSeason(teamAbbrev) {
@@ -78,7 +87,7 @@ export default class WeeksTabs extends Component {
   }
 
   renderTeam(team) {
-    const isPicked = this.isTeamPickedInDisplayedWeek(team.abbreviation);
+    const isPicked = this.isTeamPickedInDisplayedWeek(team);
     return (
       <Button
         key={team._id}
@@ -115,8 +124,6 @@ export default class WeeksTabs extends Component {
         </Tab>
       );
     });
-
-    debugger;
 
     return (
       <Tabs
