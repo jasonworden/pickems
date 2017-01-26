@@ -3,8 +3,7 @@ import {connect} from 'react-redux';
 import _ from 'lodash';
 import Tabs from 'react-bootstrap/lib/Tabs';
 import Tab from 'react-bootstrap/lib/Tab';
-import Button from 'react-bootstrap/lib/Button';
-import Label from 'react-bootstrap/lib/Label';
+import {WeekSchedule} from '../../components';
 import * as picksActions from '../../redux/modules/picks';
 import * as scheduleActions from '../../redux/modules/schedule';
 
@@ -48,12 +47,11 @@ export default class WeeksTabs extends Component {
     super(props);
     this.openWeekTab = this.openWeekTab.bind(this);
     this.toggleWinner = this.toggleWinner.bind(this);
-    this.renderGame = this.renderGame.bind(this);
-    this.renderTeam = this.renderTeam.bind(this);
     this.isTeamPickedInDisplayedWeek = this.isTeamPickedInDisplayedWeek.bind(this);
     this.isTeamPickedInSeason = this.isTeamPickedInSeason.bind(this);
     this.isTeamPickLocked = this.isTeamPickLocked.bind(this);
     this.isDisplayedWeekLocked = this.isDisplayedWeekLocked.bind(this);
+    this.renderTab = this.renderTab.bind(this);
   }
 
   openWeekTab(weekNum) {
@@ -107,49 +105,22 @@ export default class WeeksTabs extends Component {
     }
   }
 
-  renderTeam(team) {
-    const isPicked = this.isTeamPickedInDisplayedWeek(team);
+  renderTab(week) {
     return (
-      <Button
-        key={team._id}
-        bsStyle={isPicked ? 'info' : 'default'}
-        onClick={() => this.toggleWinner(team.abbreviation, !isPicked)}
-      >
-        {team.location + ' ' + team.name}
-      </Button>
-    );
-  }
-
-  renderGame(game) {
-    return (
-      <li key={game._id}>
-        {this.renderTeam(game.awayTeam)}
-        <span>{' @ '}</span>
-        {this.renderTeam(game.homeTeam)}
-      </li>
+      <Tab eventKey={week.number} title={week.number} key={week._id}>
+        <WeekSchedule
+          week={week}
+          isDisplayed={this.props.displayedWeek === week.number}
+          games={this.props.games[week.number]}
+          pickedTeamsThisWeek={this.props.picksByWeek[week.number]}
+          onTeamClick={this.toggleWinner}
+        />
+      </Tab>
     );
   }
 
   render() {
     // const style = require('./WeeksTabs.scss');
-    const weekTabs = [];
-    _.forEach(this.props.weeks, week => {
-      weekTabs.push(
-        <Tab eventKey={week.number} title={week.number} key={week.number}>
-          <h4>
-            Week <strong>{week.number}</strong> games{' '}
-            {week.isLocked &&
-            <Label bsStyle="danger">PICKS LOCKED</Label>
-            }
-          </h4>
-          <ul className="list-unstyled">
-            {this.props.games[week.number].map(
-              game => this.renderGame(game)
-            )}
-          </ul>
-        </Tab>
-      );
-    });
 
     return (
       <Tabs
@@ -157,7 +128,7 @@ export default class WeeksTabs extends Component {
         onSelect={this.openWeekTab}
         id="week-tabs"
       >
-        {weekTabs}
+        {_.map(this.props.weeks, week => this.renderTab(week))}
       </Tabs>
     );
   }
