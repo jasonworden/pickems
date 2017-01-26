@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import Label from 'react-bootstrap/lib/Label';
+import Badge from 'react-bootstrap/lib/Badge';
 
 export default class WeekSchedule extends Component {
 
@@ -30,15 +31,31 @@ export default class WeekSchedule extends Component {
     );
   }
 
-  renderTeam(team) {
+  renderTeam(team, game) {
     const isPicked = this.isTeamPickedThisWeek(team);
+    const isWinner = team._id === game.winner;
+    const isLoser = team._id === game.loser;
+    const isPickCorrect = game.isDecided && isPicked && isWinner;
+    const isPickIncorrect = game.isDecided && isPicked && !isWinner;
+
+    let buttonStyle = 'default';
+    if (isPickCorrect) {
+      buttonStyle = 'success';
+    } else if (isPickIncorrect) {
+      buttonStyle = 'danger';
+    } else if (isPicked) {
+      buttonStyle = 'info';
+    }
+
     return (
       <Button
         key={team._id}
-        bsStyle={isPicked ? 'info' : 'default'}
+        bsStyle={buttonStyle}
         onClick={() => this.props.onTeamClick(team.abbreviation, !isPicked)}
       >
-        {team.location + ' ' + team.name}
+        {team.location + ' ' + team.name + ' '}
+        {isWinner && <Badge>W</Badge>}
+        {isLoser && <Badge>L</Badge>}
       </Button>
     );
   }
@@ -46,9 +63,9 @@ export default class WeekSchedule extends Component {
   renderGame(game) {
     return (
       <li key={game._id}>
-        {this.renderTeam(game.awayTeam)}
+        {this.renderTeam(game.awayTeam, game)}
         <span>{' @ '}</span>
-        {this.renderTeam(game.homeTeam)}
+        {this.renderTeam(game.homeTeam, game)}
       </li>
     );
   }
