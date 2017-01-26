@@ -27,8 +27,8 @@
     "awayTeam": "BUF",
     "homeTeam": "CAR",
     "week": 1,
-    "winner": "BUF",
-    "loser": "CAR",
+    "winner": "CAR",
+    "loser": "BUF",
     "isDecided": true
   },
   {
