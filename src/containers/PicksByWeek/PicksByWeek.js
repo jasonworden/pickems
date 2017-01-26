@@ -34,8 +34,8 @@ export default class PicksByWeek extends Component {
   render() {
     const style = require('./PicksByWeek.scss');
     const teams = [];
-    _.forEach(this.props.picks, (picks, week) => {
-      teams.push(this.renderWeek(week, picks));
+    _.forEach(this.props.picks, (picks, weekNum) => {
+      teams.push(this.renderWeek(weekNum, picks));
     });
 
     return <ul className={style.teamsList + ' list-unstyled'}>{teams}</ul>;
