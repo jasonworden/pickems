@@ -9,7 +9,7 @@ export default class WeekSchedule extends Component {
     isDisplayed: PropTypes.bool.isRequired,
     week: PropTypes.object.isRequired,
     games: PropTypes.array.isRequired,
-    pickedTeamsThisWeek: PropTypes.array.isRequired,
+    pickedTeamsThisWeek: PropTypes.array, // not required: undefined for week 17
     onTeamClick: PropTypes.func.isRequired,
   }
 
@@ -51,7 +51,7 @@ export default class WeekSchedule extends Component {
       <Button
         key={team._id}
         bsStyle={buttonStyle}
-        onClick={() => this.props.onTeamClick(team.abbreviation, !isPicked)}
+        onClick={() => this.props.onTeamClick(team, game, !isPicked)}
       >
         {team.location + ' ' + team.name + ' '}
         {isWinner && <Badge>W</Badge>}

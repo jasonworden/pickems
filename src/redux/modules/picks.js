@@ -1,4 +1,6 @@
 const PICK_WINNER = 'PICK_WINNER';
+const PICK_WINNER_SUCCESS = 'PICK_WINNER_SUCCESS';
+const PICK_WINNER_FAIL = 'PICK_WINNER_FAIL';
 const UNPICK_WINNER = 'UNPICK_WINNER';
 
 const initialState = {
@@ -26,17 +28,17 @@ const initialState = {
 
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
-    case PICK_WINNER:
+    case PICK_WINNER_SUCCESS:
       return {
         ...state,
         weeks: {
           ...state.weeks,
-          [action.week]: [
-            ...state.weeks[action.week],
-            action.team
+          [action.result.week.number]: [
+            ...state.weeks[action.result.week.number],
+            action.result.nflteam.abbreviation
           ]
         },
-        pickedTeams: [...state.pickedTeams, action.team]
+        pickedTeams: [...state.pickedTeams, action.result.nflteam.abbreviation]
       };
     case UNPICK_WINNER:
       return {
@@ -53,16 +55,25 @@ export default function reducer(state = initialState, action = {}) {
           ...state.pickedTeams.slice(state.pickedTeams.indexOf(action.team) + 1)
         ]
       };
+    case PICK_WINNER:
+    case PICK_WINNER_FAIL:
     default:
       return state;
   }
 }
 
-export function pickWinner(week, team) {
+export function pickWinner(team, game, user) {
   return {
-    type: PICK_WINNER,
-    week,
-    team
+    types: [PICK_WINNER, PICK_WINNER_SUCCESS, PICK_WINNER_FAIL],
+    promise: (client) => client.post('/picks/create', {
+      data: {
+        game,
+        nflteam: team,
+        week: game.week,
+        season: game.week.season,
+        user,
+      }
+    })
   };
 }
 
