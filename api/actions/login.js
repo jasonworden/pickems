@@ -1,7 +1,11 @@
 import User from '../models/User';
 
-export default function login(req) {
+// Currently, our dummy login process requires no password
+// Submitting a name to login as will either log you in as
+// the user with that name, or will create a new user with
+// that name if one doesn't exist yet.
 
+export default function login(req) {
   const name = req.body.name.toLowerCase();
 
   return new Promise(resolve => {
@@ -9,32 +13,28 @@ export default function login(req) {
       .lean()
       .exec(function(err, user) {
         if (err || user === null) {
-          // User has not been created yet.
-          // Let's just make it now for simplicity:
-          // console.log('CREATING NEW USER with name', name);
           user = new User({name});
           user.save(function(saveErr) {
             if (saveErr) {
-              // console.error('COULD NOT CREATE NEW USER:', saveErr);
-
-              // We should probably returning a an object with a success
-              // prop and a user prop to all these. We aren't yet, so
-              // we will just try passing nothing here to resolve.
-              // TODO: handle this error better/correctly
+              // maybe we should pass something in here like null? not sure
               resolve();
             }
             user = user.toObject();
-            // console.log('CREATED NEW USER:', user);
             req.session.user = user;
             resolve(user);
           })
         }
 
-        // console.log('LOGGING IN AS EXISTING USER:', user);
         req.session.user = user;
         resolve(user);
       });
   });
+}
+
+// Attempt at getting this to work using promises with mongoose:
+
+// export default function login(req) {
+  // const name = req.body.name.toLowerCase();
 
   // return new Promise(resolve => {
   //   return User.findOne({name}).lean().exec()
@@ -74,13 +74,4 @@ export default function login(req) {
   //         });
   //     });
   // });
-
-}
-
-// export default function login(req) {
-//   const user = {
-//     name: req.body.name
-//   };
-//   req.session.user = user;
-//   return Promise.resolve(user);
 // }
