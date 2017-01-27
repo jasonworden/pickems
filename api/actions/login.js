@@ -8,7 +8,7 @@ import User from '../models/User';
 export default function login(req) {
   const name = req.body.name.toLowerCase();
 
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     User.findOne({name})
       .lean()
       .exec(function(err, user) {
@@ -16,8 +16,9 @@ export default function login(req) {
           user = new User({name});
           user.save(function(saveErr) {
             if (saveErr) {
-              // maybe we should pass something below like null? not sure
-              resolve();
+              reject({
+                error: "Unable to create user"
+              });
             }
             user = user.toObject();
             req.session.user = user;
