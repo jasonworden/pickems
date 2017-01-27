@@ -5,9 +5,9 @@ const schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
-  team: {
+  nflteam: {
     type: Schema.Types.ObjectId,
-    ref: 'Team'
+    ref: 'NFLTeam'
   },
   game: {
     type: Schema.Types.ObjectId,
@@ -25,7 +25,7 @@ const schema = new Schema({
     type: Boolean,
     default: false
   },
-  isCorrect: Boolean,
+  isCorrect: Boolean, //default is null (is this the right syntax for that?)
   isDecided: {
     type: Boolean,
     default: False
