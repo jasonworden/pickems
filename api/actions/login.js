@@ -5,33 +5,35 @@ export default function login(req) {
   const name = req.body.name.toLowerCase();
 
   return new Promise(resolve => {
-    User.findOne({name}).lean().exec(function(err, user) {
-      if (err || user === null) {
-        // User has not been created yet.
-        // Let's just make it now for simplicity:
-        console.log('CREATING NEW USER with name', name);
-        user = new User({name});
-        user.save(function(saveErr) {
-          if (saveErr) {
-            console.error('COULD NOT CREATE NEW USER:', saveErr);
+    User.findOne({name})
+      .lean()
+      .exec(function(err, user) {
+        if (err || user === null) {
+          // User has not been created yet.
+          // Let's just make it now for simplicity:
+          // console.log('CREATING NEW USER with name', name);
+          user = new User({name});
+          user.save(function(saveErr) {
+            if (saveErr) {
+              // console.error('COULD NOT CREATE NEW USER:', saveErr);
 
-            // We should probably returning a an object with a success
-            // prop and a user prop to all these. We aren't yet, so
-            // we will just try passing nothing here to resolve.
-            // TODO: handle this error better/correctly
-            resolve();
-          }
-          user = user.toObject();
-          console.log('CREATED NEW USER:', user);
-          req.session.user = user;
-          resolve(user);
-        })
-      }
+              // We should probably returning a an object with a success
+              // prop and a user prop to all these. We aren't yet, so
+              // we will just try passing nothing here to resolve.
+              // TODO: handle this error better/correctly
+              resolve();
+            }
+            user = user.toObject();
+            // console.log('CREATED NEW USER:', user);
+            req.session.user = user;
+            resolve(user);
+          })
+        }
 
-      console.log('LOGGING IN AS EXISTING USER:', user);
-      req.session.user = user;
-      resolve(user);
-    });
+        // console.log('LOGGING IN AS EXISTING USER:', user);
+        req.session.user = user;
+        resolve(user);
+      });
   });
 
   // return new Promise(resolve => {
