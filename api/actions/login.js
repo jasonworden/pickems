@@ -16,7 +16,7 @@ export default function login(req) {
           user = new User({name});
           user.save(function(saveErr) {
             if (saveErr) {
-              // maybe we should pass something in here like null? not sure
+              // maybe we should pass something below like null? not sure
               resolve();
             }
             user = user.toObject();
