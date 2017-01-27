@@ -35,9 +35,12 @@ app.use((req, res) => {
   if (action) {
     action(req, params)
       .then((result) => {
+        // console.log('checking result is instanceof Function:', result);
         if (result instanceof Function) {
+          // console.log('passing response to result. response:', res);
           result(res);
         } else {
+          // console.log('passing result to response as JSON:', result);
           res.json(result);
         }
       }, (reason) => {
