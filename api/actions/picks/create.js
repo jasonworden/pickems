@@ -6,12 +6,13 @@ import Pick from '../../models/Pick';
 // TODO: Use robust server-side validation on making picks.
 
 export default function create(req) {
-  // TODO: pull user off the session, not from the posted data
   return new Promise((resolve, reject) => {
+    // TODO: pull user securely off the session, not from the posted data
     if (!req.body.user) {
       reject({ error: "Not logged in" });
       return;
     }
+
     const pick = new Pick(req.body);
     pick.save(function(err, savedPick) {
       if (err) {
