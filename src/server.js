@@ -19,6 +19,7 @@ import createHistory from 'react-router/lib/createMemoryHistory';
 import {Provider} from 'react-redux';
 import getRoutes from './routes';
 
+const HTML_DOC_START_STR = '<!doctype html>\n';
 const targetUrl = 'http://' + config.apiHost + ':' + config.apiPort;
 const pretty = new PrettyError();
 const app = new Express();
@@ -72,8 +73,9 @@ app.use((req, res) => {
   const history = syncHistoryWithStore(memoryHistory, store);
 
   function hydrateOnClient() {
-    res.send('<!doctype html>\n' +
-      ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} store={store}/>));
+    res.send(HTML_DOC_START_STR +
+      ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} store={store}/>)
+    );
   }
 
   if (__DISABLE_SSR__) {
@@ -100,8 +102,9 @@ app.use((req, res) => {
 
         global.navigator = {userAgent: req.headers['user-agent']};
 
-        res.send('<!doctype html>\n' +
-          ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} component={component} store={store}/>));
+        res.send(HTML_DOC_START_STR +
+          ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} component={component} store={store}/>)
+        );
       });
     } else {
       res.status(404).send('Not found');
@@ -114,8 +117,8 @@ if (config.port) {
     if (err) {
       console.error(err);
     }
-    console.info('----\n==> ✅  %s is running, talking to API server on %s.', config.app.title, config.apiPort);
-    console.info('==> 💻  Open http://%s:%s in a browser to view the app.', config.host, config.port);
+    console.info(`----\n==> ✅  ${config.app.title} is running, talking to API server on ${config.apiPort}.`);
+    console.info(`==> 💻  Open http://${config.host}:${config.port} in a browser to view the app.`);
   });
 } else {
   console.error('==>     ERROR: No PORT environment variable has been specified');
