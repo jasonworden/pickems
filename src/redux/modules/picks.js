@@ -1,7 +1,16 @@
 const PICK_WINNER = 'PICK_WINNER';
 const PICK_WINNER_SUCCESS = 'PICK_WINNER_SUCCESS';
 const PICK_WINNER_FAIL = 'PICK_WINNER_FAIL';
+
+const LOAD_PICKS = 'LOAD_PICKS';
+const LOAD_PICKS_SUCCESS = 'LOAD_PICKS_SUCCESS';
+const LOAD_PICKS_FAIL = 'LOAD_PICKS_FAIL';
+
+const UNLOAD_PICKS = 'UNLOAD_PICKS';
+
 const UNPICK_WINNER = 'UNPICK_WINNER';
+// const UNPICK_WINNER_SUCCESS = 'UNPICK_WINNER_SUCCESS';
+// const UNPICK_WINNER_FAIL = 'UNPICK_WINNER_FAIL';
 
 const initialState = {
   weeks: {
@@ -24,10 +33,46 @@ const initialState = {
   },
   pickedTeams: ['BUF', 'GB', 'PIT' ],
   lockedTeams: ['BUF', 'GB'],
+  loaded: false,
+  loading: false,
+  loadingError: null,
 };
 
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
+    case LOAD_PICKS:
+      return {
+        ...state,
+        loading: true,
+        loaded: false,
+        loadingError: null,
+      };
+    case LOAD_PICKS_SUCCESS:
+      return {
+        ...state,
+        weeks: action.result.weeks,
+        pickedTeams: action.result.pickedTeams,
+        lockedTeams: action.result.lockedTeams,
+        loaded: true,
+        loading: false,
+      };
+    case LOAD_PICKS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        loaded: false,
+        loadingError: true,
+      };
+    case UNLOAD_PICKS:
+      return {
+        ...state,
+        loading: false,
+        loaded: false,
+        loadingError: null,
+        weeks: {}, // may need to set to initialState.weeks
+        pickedTeams: [],
+        lockedTeams: [],
+      };
     case PICK_WINNER_SUCCESS:
       return {
         ...state,
@@ -62,6 +107,23 @@ export default function reducer(state = initialState, action = {}) {
   }
 }
 
+export function loadPicks(user) {
+  return {
+    types: [LOAD_PICKS, LOAD_PICKS_SUCCESS, LOAD_PICKS_FAIL],
+    promise: (client) => client.get('/picks/load', {
+      data: {
+        user
+      }
+    })
+  };
+}
+
+export function unloadPicks() {
+  return {
+    type: UNLOAD_PICKS
+  };
+}
+
 export function pickWinner(team, game, user) {
   return {
     types: [PICK_WINNER, PICK_WINNER_SUCCESS, PICK_WINNER_FAIL],
@@ -83,4 +145,13 @@ export function unpickWinner(week, team) {
     week,
     team
   };
+
+  // return {
+  //   types: [UNPICK_WINNER, UNPICK_WINNER_SUCCESS, UNPICK_WINNER_FAIL],
+  //   promise: (client) => client.post('/picks/delete', {
+  //     data: {
+  //
+  //     }
+  //   })
+  // };
 }
