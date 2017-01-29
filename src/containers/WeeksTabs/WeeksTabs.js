@@ -9,6 +9,7 @@ import * as scheduleActions from '../../redux/modules/schedule';
 
 @connect(
   state => ({
+    user: state.auth.user,
     currentWeek: state.schedule.currentWeek,
     displayedWeek: state.schedule.displayedWeek,
     weeks: state.schedule.weeks,
@@ -26,6 +27,7 @@ import * as scheduleActions from '../../redux/modules/schedule';
 export default class WeeksTabs extends Component {
 
   static propTypes = {
+    user: PropTypes.object,
     actions: PropTypes.object,
     currentWeek: PropTypes.number.isRequired,
     displayedWeek: PropTypes.number.isRequired,
@@ -46,7 +48,7 @@ export default class WeeksTabs extends Component {
   constructor(props) {
     super(props);
     this.openWeekTab = this.openWeekTab.bind(this);
-    this.toggleWinner = this.toggleWinner.bind(this);
+    this.togglePick = this.togglePick.bind(this);
     this.isTeamPickedInDisplayedWeek = this.isTeamPickedInDisplayedWeek.bind(this);
     this.isTeamPickedInSeason = this.isTeamPickedInSeason.bind(this);
     this.isTeamPickLocked = this.isTeamPickLocked.bind(this);
@@ -77,31 +79,31 @@ export default class WeeksTabs extends Component {
     return (this.props.displayedWeek < this.props.currentWeek);
   }
 
-  toggleWinner(teamAbbrev, pickTeam) {
+  togglePick(team, game, togglePickOn) {
     if (this.isDisplayedWeekLocked()) {
       alert('This week is locked already');
       return;
     }
-    if (this.isTeamPickLocked(teamAbbrev)) {
+    if (this.isTeamPickLocked(team.abbreviation)) {
       alert('This team is in a locked pick already.');
       return;
     }
-    if (pickTeam && this.isTeamPickedInDisplayedWeek(teamAbbrev)) {
+    if (togglePickOn && this.isTeamPickedInDisplayedWeek(team.abbreviation)) {
       return;
     }
-    if (pickTeam && this.props.picksByWeek[this.props.displayedWeek].length === 2) {
+    if (togglePickOn && this.props.picksByWeek[this.props.displayedWeek].length === 2) {
       alert('Cannot pick more than 2 teams each week');
       return;
     }
-    if (pickTeam && this.isTeamPickedInSeason(teamAbbrev)) {
+    if (togglePickOn && this.isTeamPickedInSeason(team.abbreviation)) {
       alert('Team already in picks');
       return;
     }
 
-    if (pickTeam) {
-      this.props.pickWinner(this.props.displayedWeek, teamAbbrev);
+    if (togglePickOn) {
+      this.props.pickWinner(team, game, this.props.user);
     } else {
-      this.props.unpickWinner(this.props.displayedWeek, teamAbbrev);
+      this.props.unpickWinner(this.props.displayedWeek, team.abbreviation);
     }
   }
 
@@ -113,7 +115,7 @@ export default class WeeksTabs extends Component {
           isDisplayed={this.props.displayedWeek === week.number}
           games={this.props.games[week.number]}
           pickedTeamsThisWeek={this.props.picksByWeek[week.number]}
-          onTeamClick={this.toggleWinner}
+          onTeamClick={this.togglePick}
         />
       </Tab>
     );

@@ -59,7 +59,9 @@ export default class PicksByWeek extends Component {
 
     return (
       <div className="picks-by-week">
-        <h5 style={{fontWeight: 'bold', textTransform: 'uppercase'}}>Your picks by week</h5>
+        <h5 style={{fontWeight: 'bold', textTransform: 'uppercase'}}>
+          Your picks by week
+        </h5>
         <ul className={style.teamsList + ' list-unstyled'}>{teams}</ul>
       </div>
     );

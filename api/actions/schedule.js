@@ -10,7 +10,7 @@ export default function schedule() {
   // TODO: rework this terrible triple-nested callback
   return new Promise(resolve => {
     NFLSeason.findOne({year: 2016}, (err, season) => {
-      console.log('SEASON:', season);
+      console.log('SEASON for load schedule endpt:', season);
 
       Week.find({season: season._id})
         .populate('season')
@@ -18,6 +18,7 @@ export default function schedule() {
           let weekObjects = _.map(weeks, week => week.toObject());
           let weeksByNum = createObjectFromArrayOfObjects(weeks, "number");
 
+          // TODO: sort games in some way in query
           let games = Game.find({season: season._id})
             .populate('week homeTeam awayTeam')
             .exec((err, games) => {

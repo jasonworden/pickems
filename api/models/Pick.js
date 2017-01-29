@@ -28,7 +28,7 @@ const schema = new Schema({
   isCorrect: Boolean, //default is null (is this the right syntax for that?)
   isDecided: {
     type: Boolean,
-    default: False
+    default: false
   },
 });
 

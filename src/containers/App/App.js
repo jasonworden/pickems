@@ -10,6 +10,7 @@ import { isLoaded as isInfoLoaded, load as loadInfo } from 'redux/modules/info';
 import { isLoaded as isAuthLoaded, load as loadAuth, logout } from 'redux/modules/auth';
 import { loadTeams } from 'redux/modules/teams';
 import { loadSchedule } from 'redux/modules/schedule';
+import { loadPicks, unloadPicks } from 'redux/modules/picks';
 import { InfoBar } from 'components';
 import { push } from 'react-router-redux';
 import config from '../../config';
@@ -36,6 +37,8 @@ import { asyncConnect } from 'redux-async-connect';
     pushState: push,
     loadTeams,
     loadSchedule,
+    loadPicks,
+    unloadPicks,
   }
 )
 export default class App extends Component {
@@ -46,6 +49,8 @@ export default class App extends Component {
     pushState: PropTypes.func.isRequired,
     loadTeams: PropTypes.func.isRequired,
     loadSchedule: PropTypes.func.isRequired,
+    loadPicks: PropTypes.func.isRequired,
+    unloadPicks: PropTypes.func.isRequired,
   };
 
   static contextTypes = {
@@ -55,15 +60,23 @@ export default class App extends Component {
   componentWillMount() {
     this.props.loadTeams();
     this.props.loadSchedule();
+    this.props.loadPicks(this.props.user);
   }
 
   componentWillReceiveProps(nextProps) {
     if (!this.props.user && nextProps.user) {
-      // login
+      // logged in... show success page:
       this.props.pushState('/loginSuccess');
+
+      // load user data now that they've logged in:
+      debugger;
+      this.props.loadPicks(nextProps.user);
     } else if (this.props.user && !nextProps.user) {
-      // logout
+      // logged out... return to home page:
       this.props.pushState('/');
+
+      // unload user data now that they've logged out:
+      this.props.unloadPicks();
     }
   }
 

@@ -14,13 +14,13 @@ export default function login(req) {
       .exec(function(err, user) {
         if (err || user === null) {
           user = new User({name});
-          user.save(function(saveErr) {
+          user.save(function(saveErr, savedUser) {
             if (saveErr) {
               reject({
                 error: "Unable to create user"
               });
             }
-            user = user.toObject();
+            user = savedUser.toObject();
             req.session.user = user;
             resolve(user);
           })
