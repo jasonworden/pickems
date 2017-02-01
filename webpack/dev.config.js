@@ -1,3 +1,8 @@
+/////
+// Remember to make webpack/prod.config.js reflect changes
+// as needed in dev.config.js
+/////
+
 require('babel-polyfill');
 
 // Webpack config for development
@@ -22,6 +27,7 @@ try {
   console.error(err);
 }
 
+var PROJECT_ROOT_PATH = path.resolve(__dirname, '..');
 
 var babelrcObjectDevelopment = babelrcObject.env && babelrcObject.env.development || {};
 
@@ -62,8 +68,9 @@ reactTransform[1].transforms.push({
 });
 
 module.exports = {
-  devtool: 'inline-source-map',
-  context: path.resolve(__dirname, '..'),
+  // devtool: 'inline-source-map',
+  devtool: "source-map",
+  context: PROJECT_ROOT_PATH,
   entry: {
     'main': [
       'webpack-hot-middleware/client?path=http://' + host + ':' + port + '/__webpack_hmr',
