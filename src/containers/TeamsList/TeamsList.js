@@ -11,13 +11,18 @@ import _ from 'lodash';
 )
 export default class PickedTeams extends Component {
   static propTypes = {
-    pickedTeams: PropTypes.array.isRequired,
+    pickedTeams: PropTypes.object.isRequired,
     allTeams: PropTypes.object.isRequired
   }
 
   constructor(props) {
     super(props);
     this.renderTeam = this.renderTeam.bind(this);
+    this.isPickedInSeason = this.isPickedInSeason.bind(this);
+  }
+
+  isPickedInSeason(team) {
+    return !!this.props.pickedTeams[team.abbreviation];
   }
 
   renderTeam(team) {
@@ -25,7 +30,7 @@ export default class PickedTeams extends Component {
       <span key={team.abbreviation}>
         <Label
           style={{marginRight: 5, marginBottom: 5}}
-          bsStyle={this.props.pickedTeams.indexOf(team.abbreviation) !== -1 ? 'default' : 'info'}
+          bsStyle={this.isPickedInSeason(team) ? 'default' : 'info'}
         >
           {team.abbreviation}
         </Label>

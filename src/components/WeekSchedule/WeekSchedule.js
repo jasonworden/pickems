@@ -9,7 +9,7 @@ export default class WeekSchedule extends Component {
     isDisplayed: PropTypes.bool.isRequired,
     week: PropTypes.object.isRequired,
     games: PropTypes.array.isRequired,
-    pickedTeamsThisWeek: PropTypes.array, // not required: undefined for week 17
+    picksThisWeek: PropTypes.object, // not required: undefined for week 17
     onTeamClick: PropTypes.func.isRequired,
   }
 
@@ -18,21 +18,25 @@ export default class WeekSchedule extends Component {
     // this.toggleWinner = this.toggleWinner.bind(this);
     this.renderGame = this.renderGame.bind(this);
     this.renderTeam = this.renderTeam.bind(this);
-    this.isTeamPickedThisWeek = this.isTeamPickedThisWeek.bind(this);
+    this.getPickForThisWeek = this.getPickForThisWeek.bind(this);
     // this.isTeamPickedInSeason = this.isTeamPickedInSeason.bind(this);
     // this.isTeamPickLocked = this.isTeamPickLocked.bind(this);
     // this.isDisplayedWeekLocked = this.isDisplayedWeekLocked.bind(this);
   }
 
-  isTeamPickedThisWeek(team) {
-    return (
-      this.props.pickedTeamsThisWeek.indexOf(team.abbreviation)
-        !== -1
-    );
+  getPickForThisWeek(team) {
+    if (!this.props.picksThisWeek) {
+      return null;
+    }
+
+    const pick = this.props.picksThisWeek[team.abbreviation];
+    return (typeof pick !== 'undefined') ?
+      pick : null;
   }
 
   renderTeam(team, game) {
-    const isPicked = this.isTeamPickedThisWeek(team);
+    const matchingPick = this.getPickForThisWeek(team);
+    const isPicked = !!matchingPick;
     const isWinner = team._id === game.winner;
     const isLoser = team._id === game.loser;
     const isPickCorrect = game.isDecided && isPicked && isWinner;
@@ -51,7 +55,7 @@ export default class WeekSchedule extends Component {
       <Button
         key={team._id}
         bsStyle={buttonStyle}
-        onClick={() => this.props.onTeamClick(team, game, !isPicked)}
+        onClick={() => this.props.onTeamClick(team, game, !isPicked, matchingPick)}
       >
         {team.location + ' ' + team.name + ' '}
         {isWinner && <Badge>W</Badge>}

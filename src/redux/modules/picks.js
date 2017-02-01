@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 const PICK_WINNER = 'PICK_WINNER';
 const PICK_WINNER_SUCCESS = 'PICK_WINNER_SUCCESS';
 const PICK_WINNER_FAIL = 'PICK_WINNER_FAIL';
@@ -9,30 +11,30 @@ const LOAD_PICKS_FAIL = 'LOAD_PICKS_FAIL';
 const UNLOAD_PICKS = 'UNLOAD_PICKS';
 
 const UNPICK_WINNER = 'UNPICK_WINNER';
-// const UNPICK_WINNER_SUCCESS = 'UNPICK_WINNER_SUCCESS';
-// const UNPICK_WINNER_FAIL = 'UNPICK_WINNER_FAIL';
+const UNPICK_WINNER_SUCCESS = 'UNPICK_WINNER_SUCCESS';
+const UNPICK_WINNER_FAIL = 'UNPICK_WINNER_FAIL';
 
 const initialState = {
   weeks: {
-    1: [ 'BUF', 'GB' ],
-    2: [ 'PIT' ],
-    3: [],
-    4: [],
-    5: [],
-    6: [],
-    7: [],
-    8: [],
-    9: [],
-    10: [],
-    11: [],
-    12: [],
-    13: [],
-    14: [],
-    15: [],
-    16: []
+    1: {},
+    2: {},
+    3: {},
+    4: {},
+    5: {},
+    6: {},
+    7: {},
+    8: {},
+    9: {},
+    10: {},
+    11: {},
+    12: {},
+    13: {},
+    14: {},
+    15: {},
+    16: {}
   },
-  pickedTeams: ['BUF', 'GB', 'PIT' ],
-  lockedTeams: ['BUF', 'GB'],
+  pickedTeams: {},
+  lockedTeams: {},
   loaded: false,
   loading: false,
   loadingError: null,
@@ -78,30 +80,35 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         weeks: {
           ...state.weeks,
-          [action.result.week.number]: [
-            ...state.weeks[action.result.week.number],
-            action.result.nflteam.abbreviation
-          ]
+          [action.result.pick.week.number]: {
+            ...state.weeks[action.result.pick.week.number],
+            [action.result.pick.nflteam.abbreviation]: action.result.pick
+          }
         },
-        pickedTeams: [...state.pickedTeams, action.result.nflteam.abbreviation]
+        pickedTeams: {
+          ...state.pickedTeams,
+          [action.result.pick.nflteam.abbreviation]: action.result.pick.nflteam
+        }
       };
-    case UNPICK_WINNER:
+    case UNPICK_WINNER_SUCCESS:
       return {
         ...state,
         weeks: {
           ...state.weeks,
-          [action.week]: [
-            ...state.weeks[action.week].slice(0, state.weeks[action.week].indexOf(action.team)),
-            ...state.weeks[action.week].slice(state.weeks[action.week].indexOf(action.team) + 1)
-          ]
+          [action.result.weekNum]: _.omitBy({
+            ...state.weeks[action.result.weekNum],
+            [action.result.nflteam.abbreviation]: undefined
+          }, _.isUndefined)
         },
-        pickedTeams: [
-          ...state.pickedTeams.slice(0, state.pickedTeams.indexOf(action.team)),
-          ...state.pickedTeams.slice(state.pickedTeams.indexOf(action.team) + 1)
-        ]
+        pickedTeams: _.omitBy({
+          ...state.pickedTeams,
+          [action.result.nflteam.abbreviation]: undefined
+        }, _.isUndefined)
       };
     case PICK_WINNER:
     case PICK_WINNER_FAIL:
+    case UNPICK_WINNER:
+    case UNPICK_WINNER_FAIL:
     default:
       return state;
   }
@@ -110,7 +117,11 @@ export default function reducer(state = initialState, action = {}) {
 export function loadPicks(user) {
   return {
     types: [LOAD_PICKS, LOAD_PICKS_SUCCESS, LOAD_PICKS_FAIL],
-    promise: (client) => client.post('/picks/load', user)
+    promise: (client) => client.post('/picks/load', {
+      data: {
+        user,
+      }
+    })
   };
 }
 
@@ -135,19 +146,16 @@ export function pickWinner(team, game, user) {
   };
 }
 
-export function unpickWinner(week, team) {
+export function unpickWinner(team, game, pick, user) {
   return {
-    type: UNPICK_WINNER,
-    week,
-    team
+    types: [UNPICK_WINNER, UNPICK_WINNER_SUCCESS, UNPICK_WINNER_FAIL],
+    promise: (client) => client.post('/picks/remove', {
+      data: {
+        pick,
+        nflteam: team,
+        weekNum: game.week.number,
+        user,
+      }
+    })
   };
-
-  // return {
-  //   types: [UNPICK_WINNER, UNPICK_WINNER_SUCCESS, UNPICK_WINNER_FAIL],
-  //   promise: (client) => client.post('/picks/delete', {
-  //     data: {
-  //
-  //     }
-  //   })
-  // };
 }

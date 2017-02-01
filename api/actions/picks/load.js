@@ -6,7 +6,7 @@ import Week from '../../models/Week';
 
 export default function load(req) {
   return new Promise((resolve, reject) => {
-    const user = req.body;
+    const { user } = req.body;
 
     // TODO: pull user securely off the session, not from the posted data
     if (!user) {
@@ -31,22 +31,24 @@ export default function load(req) {
             .populate('nflteam game week')
             .exec((err, picks) => {
               let picksByWeekNum = {};
-              let pickedTeams = [];
-              let lockedTeams = [];
-              _.forEach(weeksByNum, week => picksByWeekNum[week.number] = []);
+              let pickedTeams = {};
+              let lockedTeams = {};
+              _.forEach(weeksByNum, week => picksByWeekNum[week.number] = {});
               _.forEach(picks, pick => {
-                picksByWeekNum[pick.week.number].push(pick);
-                pickedTeams.push({
-                  ...pick.team,
+                const abbrev = pick.nflteam.abbreviation;
+
+                picksByWeekNum[pick.week.number][abbrev] = pick;
+                pickedTeams[abbrev] = {
+                  ...pick.nflteam,
                   pickId: pick._id,
                   weekNum: pick.week.number
-                });
+                };
                 if (pick.isLocked) {
-                  lockedTeams.push({
-                    ...pick.team,
+                  lockedTeams[abbrev] = {
+                    ...pick.nflteam,
                     pickId: pick._id,
                     weekNum: pick.week.number
-                  });
+                  };
                 }
               });
               resolve({
