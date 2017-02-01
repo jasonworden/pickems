@@ -9,19 +9,19 @@ export default function remove(req) {
   return new Promise((resolve, reject) => {
     // TODO: pull user securely off the session, not from the posted data
     if (!req.body.user) {
-      reject({ error: "Not logged in" });
+      reject("Please login to remove a pick");
       return;
     }
 
-    Pick.findById(req.body.pickId)
+    Pick.findById(req.body.pick._id)
       .remove(function(err) {
         if(err) {
-          reject({ error: "Unable to create pick" });
-          return;
-        } else {
-          resolve();
+          reject("Unable to remove pick");
           return;
         }
+
+        resolve(req.body);
+        return;
       })
   });
 }
