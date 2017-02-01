@@ -35,8 +35,8 @@ export default class WeeksTabs extends Component {
     games: PropTypes.object.isRequired,
 
     picksByWeek: PropTypes.object.isRequired,
-    pickedTeams: PropTypes.array.isRequired,
-    lockedTeams: PropTypes.array.isRequired,
+    pickedTeams: PropTypes.object.isRequired,
+    lockedTeams: PropTypes.object.isRequired,
 
     pickWinner: PropTypes.func.isRequired,
     unpickWinner: PropTypes.func.isRequired,
@@ -50,7 +50,7 @@ export default class WeeksTabs extends Component {
     this.openWeekTab = this.openWeekTab.bind(this);
     this.togglePick = this.togglePick.bind(this);
     this.isTeamPickedInDisplayedWeek = this.isTeamPickedInDisplayedWeek.bind(this);
-    this.isTeamPickedInSeason = this.isTeamPickedInSeason.bind(this);
+    this.isPickedInSeason = this.isPickedInSeason.bind(this);
     this.isTeamPickLocked = this.isTeamPickLocked.bind(this);
     this.isDisplayedWeekLocked = this.isDisplayedWeekLocked.bind(this);
     this.renderTab = this.renderTab.bind(this);
@@ -62,40 +62,40 @@ export default class WeeksTabs extends Component {
 
   isTeamPickedInDisplayedWeek(team) {
     return (
-      this.props.picksByWeek[this.props.displayedWeek].indexOf(team.abbreviation)
-        !== -1
+      !!this.props.picksByWeek[this.props.displayedWeek] &&
+      !!this.props.picksByWeek[this.props.displayedWeek][team.abbreviation]
     );
   }
 
-  isTeamPickedInSeason(teamAbbrev) {
-    return (this.props.pickedTeams.indexOf(teamAbbrev) !== -1);
+  isPickedInSeason(team) {
+    return !!this.props.pickedTeams[team.abbreviation];
   }
 
-  isTeamPickLocked(teamAbbrev) {
-    return (this.props.lockedTeams.indexOf(teamAbbrev) !== -1);
+  isTeamPickLocked(team) {
+    return !!this.props.lockedTeams[team.abbreviation];
   }
 
   isDisplayedWeekLocked() {
     return (this.props.displayedWeek < this.props.currentWeek);
   }
 
-  togglePick(team, game, togglePickOn) {
+  togglePick(team, game, togglePickOn, pick) {
     if (this.isDisplayedWeekLocked()) {
       alert('This week is locked already');
       return;
     }
-    if (this.isTeamPickLocked(team.abbreviation)) {
+    if (this.isTeamPickLocked(team)) {
       alert('This team is in a locked pick already.');
       return;
     }
-    if (togglePickOn && this.isTeamPickedInDisplayedWeek(team.abbreviation)) {
+    if (togglePickOn && this.isTeamPickedInDisplayedWeek(team)) {
       return;
     }
-    if (togglePickOn && this.props.picksByWeek[this.props.displayedWeek].length === 2) {
+    if (togglePickOn && _.keys(this.props.picksByWeek[this.props.displayedWeek]).length === 2) {
       alert('Cannot pick more than 2 teams each week');
       return;
     }
-    if (togglePickOn && this.isTeamPickedInSeason(team.abbreviation)) {
+    if (togglePickOn && this.isPickedInSeason(team)) {
       alert('Team already in picks');
       return;
     }
@@ -103,7 +103,7 @@ export default class WeeksTabs extends Component {
     if (togglePickOn) {
       this.props.pickWinner(team, game, this.props.user);
     } else {
-      this.props.unpickWinner(this.props.displayedWeek, team.abbreviation);
+      this.props.unpickWinner(team, game, pick, this.props.user);
     }
   }
 
@@ -114,7 +114,7 @@ export default class WeeksTabs extends Component {
           week={week}
           isDisplayed={this.props.displayedWeek === week.number}
           games={this.props.games[week.number]}
-          pickedTeamsThisWeek={this.props.picksByWeek[week.number]}
+          picksThisWeek={this.props.picksByWeek[week.number]}
           onTeamClick={this.togglePick}
         />
       </Tab>

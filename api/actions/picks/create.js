@@ -9,18 +9,23 @@ export default function create(req) {
   return new Promise((resolve, reject) => {
     // TODO: pull user securely off the session, not from the posted data
     if (!req.body.user) {
-      reject({ error: "Not logged in" });
+      reject("Please login to make a pick");
       return;
     }
 
-    const pick = new Pick(req.body);
-    pick.save(function(err, savedPick) {
+    const newPick = new Pick(req.body);
+    newPick.save(function(err, savedPick) {
       if (err) {
-        reject({ error: "Unable to create pick" });
+        reject("Unable to create pick");
         return;
       }
       savedPick.populate('nflteam week', (err, pick) => {
-        resolve(pick.toObject());
+        if (err) {
+          reject('Could not populate saved pick');
+        }
+        resolve({
+          pick: pick.toObject(),
+        });
         return;
       });
     });

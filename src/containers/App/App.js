@@ -7,7 +7,7 @@ import Nav from 'react-bootstrap/lib/Nav';
 import NavItem from 'react-bootstrap/lib/NavItem';
 import Helmet from 'react-helmet';
 import { isLoaded as isInfoLoaded, load as loadInfo } from 'redux/modules/info';
-import { isLoaded as isAuthLoaded, load as loadAuth, logout } from 'redux/modules/auth';
+import { isLoaded as isAuthLoaded, load as loadAuth, logout, login } from 'redux/modules/auth';
 import { loadTeams } from 'redux/modules/teams';
 import { loadSchedule } from 'redux/modules/schedule';
 import { loadPicks, unloadPicks } from 'redux/modules/picks';
@@ -15,6 +15,8 @@ import { InfoBar } from 'components';
 import { push } from 'react-router-redux';
 import config from '../../config';
 import { asyncConnect } from 'redux-async-connect';
+
+const TEST_USER_NAME = 'Test_user';
 
 @asyncConnect([{
   promise: ({store: {dispatch, getState}}) => {
@@ -33,6 +35,7 @@ import { asyncConnect } from 'redux-async-connect';
 @connect(
   state => ({user: state.auth.user}),
   {
+    login,
     logout,
     pushState: push,
     loadTeams,
@@ -45,6 +48,7 @@ export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
     user: PropTypes.object,
+    login: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
     pushState: PropTypes.func.isRequired,
     loadTeams: PropTypes.func.isRequired,
@@ -62,13 +66,16 @@ export default class App extends Component {
     this.props.loadSchedule();
     if (this.props.user) {
       this.props.loadPicks(this.props.user);
+    } else {
+      this.props.login(TEST_USER_NAME);
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (!this.props.user && nextProps.user) {
-      // logged in... show success page:
-      this.props.pushState('/loginSuccess');
+      this.props.pushState('/picks');
+      // logged in... go to picks home page:
+      // this.props.pushState('/loginSuccess');
 
       // load user data now that they've logged in:
       this.props.loadPicks(nextProps.user);

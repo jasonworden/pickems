@@ -21,13 +21,17 @@ export default class PicksByWeek extends Component {
     this.renderWeek = this.renderWeek.bind(this);
   }
 
-  renderWeek(week, picks) {
+  renderWeek(week) {
     const key = week._id;
+    const picks = this.props.picks[week.number];
+
     if (!week.arePicksAllowed) {
       return (
         <li key={key}>
-          {week.number}.{' '}
-          <Label>NO PICKS THIS WEEK</Label>
+          <h4>
+            {week.number}.{' '}
+            <Label>NO PICKS THIS WEEK</Label>
+          </h4>
         </li>
       );
     }
@@ -36,7 +40,7 @@ export default class PicksByWeek extends Component {
       <li key={key}>
         <h4>
           {week.number}.{' '}
-          {picks.map(abbrev => (
+          {_.map(picks, (pick, abbrev) => (
             <Label style={{marginRight: 5}}>
               {week.isLocked &&
               <Badge><i className="fa fa-lock" /></Badge>
@@ -53,8 +57,7 @@ export default class PicksByWeek extends Component {
     const style = require('./PicksByWeek.scss');
     const teams = [];
     _.forEach(this.props.weeks, week => {
-      const picks = this.props.picks[week.number];
-      teams.push(this.renderWeek(week, picks));
+      teams.push(this.renderWeek(week));
     });
 
     return (
