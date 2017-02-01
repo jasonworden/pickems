@@ -110,11 +110,7 @@ export default function reducer(state = initialState, action = {}) {
 export function loadPicks(user) {
   return {
     types: [LOAD_PICKS, LOAD_PICKS_SUCCESS, LOAD_PICKS_FAIL],
-    promise: (client) => client.get('/picks/load', {
-      data: {
-        user
-      }
-    })
+    promise: (client) => client.post('/picks/load', user)
   };
 }
 
