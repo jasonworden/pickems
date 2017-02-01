@@ -8,13 +8,20 @@ const DUMMY_CURRENT_WEEK_FOR_NOW = 2;
 
 export default function schedule() {
   // TODO: rework this terrible triple-nested callback
-  return new Promise(resolve => {
+  console.log('hit schedule endpt');
+  return new Promise( (resolve, reject) => {
     NFLSeason.findOne({year: 2016}, (err, season) => {
+      if (err) {
+        reject(err);
+      }
       console.log('SEASON for load schedule endpt:', season);
 
       Week.find({season: season._id})
         .populate('season')
         .exec((err, weeks) => {
+          if (err) {
+            reject(err);
+          }
           let weekObjects = _.map(weeks, week => week.toObject());
           let weeksByNum = createObjectFromArrayOfObjects(weeks, "number");
 
@@ -22,6 +29,9 @@ export default function schedule() {
           let games = Game.find({season: season._id})
             .populate('week homeTeam awayTeam')
             .exec((err, games) => {
+              if (err) {
+                reject(err);
+              }
               let gamesByWeekNum = {};
               _.forEach(weeksByNum, week => gamesByWeekNum[week.number] = []);
               _.forEach(games, game => gamesByWeekNum[game.week.number].push(game));
