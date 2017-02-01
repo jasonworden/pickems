@@ -60,7 +60,9 @@ export default class App extends Component {
   componentWillMount() {
     this.props.loadTeams();
     this.props.loadSchedule();
-    this.props.loadPicks(this.props.user);
+    if (this.props.user) {
+      this.props.loadPicks(this.props.user);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -69,7 +71,6 @@ export default class App extends Component {
       this.props.pushState('/loginSuccess');
 
       // load user data now that they've logged in:
-      debugger;
       this.props.loadPicks(nextProps.user);
     } else if (this.props.user && !nextProps.user) {
       // logged out... return to home page:
