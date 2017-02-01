@@ -20,7 +20,8 @@
     "redux",
     "starter",
     "boilerplate",
-    "babel"
+    "babel",
+    "webstorm"
   ],
   "main": "bin/server.js",
   "scripts": {
@@ -123,6 +124,7 @@
     "map-props": "^1.0.0",
     "mongoose": "^4.7.7",
     "mongoose-simple-fixtures": "^1.9.3",
+    "morgan": "^1.7.0",
     "multireducer": "^2.0.0",
     "piping": "^0.3.0",
     "pow-mongodb-fixtures": "^0.14.0",

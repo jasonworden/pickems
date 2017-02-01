@@ -7,8 +7,8 @@ var CleanPlugin = require('clean-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var strip = require('strip-loader');
 
-var projectRootPath = path.resolve(__dirname, '../');
-var assetsPath = path.resolve(projectRootPath, './static/dist');
+var PROJECT_ROOT_PATH = path.resolve(__dirname, '../');
+var assetsPath = path.resolve(PROJECT_ROOT_PATH, './static/dist');
 
 // https://github.com/halt-hammerzeit/webpack-isomorphic-tools
 var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
@@ -16,6 +16,7 @@ var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./w
 
 module.exports = {
   devtool: 'source-map',
+  // devtool: "source-map"
   context: path.resolve(__dirname, '..'),
   entry: {
     'main': [
@@ -53,7 +54,7 @@ module.exports = {
     extensions: ['', '.json', '.js', '.jsx']
   },
   plugins: [
-    new CleanPlugin([assetsPath], { root: projectRootPath }),
+    new CleanPlugin([assetsPath], { root: PROJECT_ROOT_PATH }),
 
     // css files from the extract-text-plugin loader
     new ExtractTextPlugin('[name]-[chunkhash].css', {allChunks: true}),

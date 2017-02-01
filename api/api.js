@@ -7,6 +7,7 @@ import {mapUrl} from 'utils/url.js';
 import PrettyError from 'pretty-error';
 import http from 'http';
 import SocketIo from 'socket.io';
+import logger from 'morgan';
 import {connectToMongoDB} from './database';
 
 const pretty = new PrettyError();
@@ -25,6 +26,11 @@ app.use(session({
 }));
 app.use(bodyParser.json());
 
+// if(__DEVELOPMENT__) {
+//   app.use(logger('dev'));
+// }
+app.use(logger('dev'));
+
 connectToMongoDB();
 
 app.use((req, res) => {
@@ -36,6 +42,7 @@ app.use((req, res) => {
     action(req, params)
       .then((result) => {
         // console.log('checking result is instanceof Function:', result);
+        debugger;
         if (result instanceof Function) {
           // console.log('passing response to result. response:', res);
           result(res);
