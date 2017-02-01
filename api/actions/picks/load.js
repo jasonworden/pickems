@@ -1,12 +1,16 @@
+import _ from 'lodash';
+import {createObjectFromArrayOfObjects} from '../../utils/misc';
 import Pick from '../../models/Pick';
+import NFLSeason from '../../models/NFLSeason';
+import Week from '../../models/Week';
 
 export default function load(req) {
   return new Promise((resolve, reject) => {
-    const { user } = req.body;
+    const user = req.body;
 
     // TODO: pull user securely off the session, not from the posted data
     if (!user) {
-      reject({ error: "Not logged in" });
+      reject('Please log in to get your picks. User given: ' + user);
       return;
     }
 
