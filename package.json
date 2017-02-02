@@ -38,7 +38,7 @@
     "test": "karma start",
     "test-node": "./node_modules/mocha/bin/mocha $(find api -name '*-test.js') --compilers js:babel-core/register",
     "test-node-watch": "./node_modules/mocha/bin/mocha $(find api -name '*-test.js') --compilers js:babel-core/register --watch",
-    "load-fixtures": "node scripts/load_fixtures"
+    "load-fixtures": "babel-node scripts/load_fixtures"
   },
   "betterScripts": {
     "start-prod": {
@@ -96,6 +96,7 @@
     }
   },
   "dependencies": {
+    "babel-cli": "^6.22.2",
     "babel-core": "^6.5.2",
     "babel-loader": "^6.2.1",
     "babel-plugin-add-module-exports": "^0.1.2",

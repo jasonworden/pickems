@@ -6,28 +6,26 @@ Run command:
 node fixtures/load_fixtures.js
 */
 
-var fs = require("fs");
-var path = require('path');
-var mongoFixtures = require('pow-mongodb-fixtures');
-var _ = require('lodash');
+import fs from 'fs';
+import path from 'path';
+import mongoFixtures from 'pow-mongodb-fixtures';
+import _ from 'lodash';
 
 const REPO_ROOT_DIR = path.resolve(__dirname, '..');
 const FIXTURES_DIR = path.resolve(REPO_ROOT_DIR, 'fixtures');
 
-var fixtures = mongoFixtures.connect('pickems');
-var createObjectId = mongoFixtures.createObjectId;
+const fixtures = mongoFixtures.connect('pickems');
+const createObjectId = mongoFixtures.createObjectId;
 
 function getJSONFromFile(filepath) {
   var contents = fs.readFileSync(filepath);
   return JSON.parse(contents);
 }
 
-function createObjectFromArrayOfObjects(arr, key, generateId) {
-  generateId = typeof generateId === 'undefined' ?
-    true : generateId; //defaults to true;
-  var obj = {};
-  var item;
-  for(var i=0; i<arr.length; ++i) {
+function createObjectFromArrayOfObjects(arr, key, generateId = true) {
+  let obj = {};
+  let item;
+  for(let i=0; i<arr.length; ++i) {
     item = arr[i];
     if(generateId) {
       item._id = createObjectId();
@@ -38,20 +36,20 @@ function createObjectFromArrayOfObjects(arr, key, generateId) {
 }
 
 function parseFixtureArray(collection, key) {
-  // If key is passed, parse into objects with IDs
+  // If key is passed, parse into objects with new IDs
   // If no key is passed, return parsed array
 
   const fixturesLocation = path.resolve(FIXTURES_DIR, `${collection}.json`);
-  var arr = getJSONFromFile(fixturesLocation);
-  return key !== undefined ?
+  const arr = getJSONFromFile(fixturesLocation);
+  return key ?
     createObjectFromArrayOfObjects(arr, key) : arr;
 }
 
-var nflteams = parseFixtureArray('nflteams', "abbreviation");
-var weeks = parseFixtureArray('weeks', "number");
-var nflconferences = parseFixtureArray('nflconferences', "abbreviation");
-var games = parseFixtureArray('games');
-var nflseasons = parseFixtureArray('nflseasons', "year");
+const nflteams = parseFixtureArray('nflteams', "abbreviation");
+const weeks = parseFixtureArray('weeks', "number");
+const nflconferences = parseFixtureArray('nflconferences', "abbreviation");
+const games = parseFixtureArray('games');
+const nflseasons = parseFixtureArray('nflseasons', "year");
 
 _.forEach(nflteams, function(team) {
   team.conference = nflconferences[team.conference]._id;
