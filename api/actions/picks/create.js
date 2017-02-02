@@ -19,7 +19,7 @@ export default function create(req) {
         reject("Unable to create pick");
         return;
       }
-      savedPick.populate('nflteam week', (err, pick) => {
+      savedPick.populate('nflteam week game', (err, pick) => {
         if (err) {
           reject('Could not populate saved pick');
         }

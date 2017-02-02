@@ -1,19 +1,20 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import Label from 'react-bootstrap/lib/Label';
-import Badge from 'react-bootstrap/lib/Badge';
 import _ from 'lodash';
 
 @connect(
   state => ({
     picks: state.picks.weeks,
     weeks: state.schedule.weeks,
+    currentWeekNum: state.schedule.currentWeek,
   })
 )
 export default class PicksByWeek extends Component {
   static propTypes = {
     picks: PropTypes.object.isRequired,
     weeks: PropTypes.object.isRequired,
+    currentWeekNum: PropTypes.number.isRequired,
   }
 
   constructor(props) {
@@ -36,18 +37,30 @@ export default class PicksByWeek extends Component {
       );
     }
 
+    const isDecided = (week.number < this.props.currentWeekNum);
+
     return (
       <li key={key}>
         <h4>
           {week.number}.{' '}
-          {_.map(picks, (pick, abbrev) => (
-            <Label style={{marginRight: 5}}>
-              {week.isLocked &&
-              <Badge><i className="fa fa-lock" /></Badge>
-              }
-              {abbrev}
-            </Label>
-          ))}
+          {_.map(picks, (pick, abbrev) => {
+            const isCorrect = isDecided && (pick.game.winner === pick.nflteam._id);
+            let labelStyle = 'default';
+            if (isCorrect) {
+              labelStyle = 'success';
+            } else if (isDecided) {
+              labelStyle = 'danger';
+            }
+            return (
+              <Label bsStyle={labelStyle} style={{marginRight: 5}}>
+                {week.isLocked &&
+                <i className="fa fa-lock" />
+                }
+                {' '}
+                {abbrev}
+              </Label>
+            );
+          })}
         </h4>
       </li>
     );
