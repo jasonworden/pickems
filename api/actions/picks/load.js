@@ -27,7 +27,7 @@ export default function load(req) {
           }
 
           // TODO: sort picks in some way in query
-          let picks = Pick.find({season: season._id, user: user._id})
+          Pick.find({season: season._id, user: user._id})
             .populate('nflteam game week')
             .exec((err, picks) => {
               let picksByWeekNum = {};
