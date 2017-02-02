@@ -10,8 +10,8 @@ import * as scheduleActions from '../../redux/modules/schedule';
 @connect(
   state => ({
     user: state.auth.user,
-    currentWeek: state.schedule.currentWeek,
-    displayedWeek: state.schedule.displayedWeek,
+    currentWeekNum: state.schedule.currentWeek,
+    displayedWeekNum: state.schedule.displayedWeek,
     weeks: state.schedule.weeks,
     games: state.schedule.games,
 
@@ -29,8 +29,8 @@ export default class WeeksTabs extends Component {
   static propTypes = {
     user: PropTypes.object,
     actions: PropTypes.object,
-    currentWeek: PropTypes.number.isRequired,
-    displayedWeek: PropTypes.number.isRequired,
+    currentWeekNum: PropTypes.number.isRequired,
+    displayedWeekNum: PropTypes.number.isRequired,
     weeks: PropTypes.object.isRequired,
     games: PropTypes.object.isRequired,
 
@@ -52,7 +52,6 @@ export default class WeeksTabs extends Component {
     this.isTeamPickedInDisplayedWeek = this.isTeamPickedInDisplayedWeek.bind(this);
     this.isPickedInSeason = this.isPickedInSeason.bind(this);
     this.isTeamPickLocked = this.isTeamPickLocked.bind(this);
-    this.isDisplayedWeekLocked = this.isDisplayedWeekLocked.bind(this);
     this.renderTab = this.renderTab.bind(this);
   }
 
@@ -62,8 +61,8 @@ export default class WeeksTabs extends Component {
 
   isTeamPickedInDisplayedWeek(team) {
     return (
-      !!this.props.picksByWeek[this.props.displayedWeek] &&
-      !!this.props.picksByWeek[this.props.displayedWeek][team.abbreviation]
+      !!this.props.picksByWeek[this.props.displayedWeekNum] &&
+      !!this.props.picksByWeek[this.props.displayedWeekNum][team.abbreviation]
     );
   }
 
@@ -75,12 +74,8 @@ export default class WeeksTabs extends Component {
     return !!this.props.lockedTeams[team.abbreviation];
   }
 
-  isDisplayedWeekLocked() {
-    return (this.props.displayedWeek < this.props.currentWeek);
-  }
-
   togglePick(team, game, togglePickOn, pick) {
-    if (this.isDisplayedWeekLocked()) {
+    if (this.props.weeks[this.props.displayedWeekNum].isLocked) {
       alert('This week is locked already');
       return;
     }
@@ -91,7 +86,7 @@ export default class WeeksTabs extends Component {
     if (togglePickOn && this.isTeamPickedInDisplayedWeek(team)) {
       return;
     }
-    if (togglePickOn && _.keys(this.props.picksByWeek[this.props.displayedWeek]).length === 2) {
+    if (togglePickOn && _.keys(this.props.picksByWeek[this.props.displayedWeekNum]).length === 2) {
       alert('Cannot pick more than 2 teams each week');
       return;
     }
@@ -112,7 +107,7 @@ export default class WeeksTabs extends Component {
       <Tab eventKey={week.number} title={week.number} key={week._id}>
         <WeekSchedule
           week={week}
-          isDisplayed={this.props.displayedWeek === week.number}
+          isDisplayed={this.props.displayedWeekNum === week.number}
           games={this.props.games[week.number]}
           picksThisWeek={this.props.picksByWeek[week.number]}
           onTeamClick={this.togglePick}
@@ -126,7 +121,7 @@ export default class WeeksTabs extends Component {
 
     return (
       <Tabs
-        activeKey={this.props.displayedWeek}
+        activeKey={this.props.displayedWeekNum}
         onSelect={this.openWeekTab}
         id="week-tabs"
       >
