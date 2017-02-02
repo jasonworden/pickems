@@ -110,7 +110,7 @@ export default class App extends Component {
             <Nav navbar>
               <LinkContainer to="/picks">
                 <NavItem>
-                  Picks
+                  Home
                 </NavItem>
               </LinkContainer>
             </Nav>
