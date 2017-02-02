@@ -11,8 +11,8 @@ var path = require('path');
 var mongoFixtures = require('pow-mongodb-fixtures');
 var _ = require('lodash');
 
-//TODO: Script only works if you run it from its own dir. Fix this.
-console.log('dirname:', __dirname);
+const REPO_ROOT_DIR = path.resolve(__dirname, '..');
+const FIXTURES_DIR = path.resolve(REPO_ROOT_DIR, 'fixtures');
 
 var fixtures = mongoFixtures.connect('pickems');
 var createObjectId = mongoFixtures.createObjectId;
@@ -37,20 +37,21 @@ function createObjectFromArrayOfObjects(arr, key, generateId) {
   return obj;
 }
 
-function parseFixtureArray(filepath, key) {
+function parseFixtureArray(collection, key) {
   // If key is passed, parse into objects with IDs
   // If no key is passed, return parsed array
 
-  var arr = getJSONFromFile(filepath);
+  const fixturesLocation = path.resolve(FIXTURES_DIR, `${collection}.json`);
+  var arr = getJSONFromFile(fixturesLocation);
   return key !== undefined ?
     createObjectFromArrayOfObjects(arr, key) : arr;
 }
 
-var nflteams = parseFixtureArray('./nflteams.json', "abbreviation");
-var weeks = parseFixtureArray('./weeks.json', "number");
-var nflconferences = parseFixtureArray('./nflconferences.json', "abbreviation");
-var games = parseFixtureArray('./games.json');
-var nflseasons = parseFixtureArray('./nflseasons.json', "year");
+var nflteams = parseFixtureArray('nflteams', "abbreviation");
+var weeks = parseFixtureArray('weeks', "number");
+var nflconferences = parseFixtureArray('nflconferences', "abbreviation");
+var games = parseFixtureArray('games');
+var nflseasons = parseFixtureArray('nflseasons', "year");
 
 _.forEach(nflteams, function(team) {
   team.conference = nflconferences[team.conference]._id;
