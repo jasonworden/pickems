@@ -11,7 +11,6 @@ import { isLoaded as isAuthLoaded, load as loadAuth, logout, login } from 'redux
 import { loadTeams } from 'redux/modules/teams';
 import { loadSchedule } from 'redux/modules/schedule';
 import { loadPicks, unloadPicks } from 'redux/modules/picks';
-import { InfoBar } from 'components';
 import { push } from 'react-router-redux';
 import config from '../../config';
 import { asyncConnect } from 'redux-async-connect';
@@ -113,22 +112,11 @@ export default class App extends Component {
 
           <Navbar.Collapse eventKey={0}>
             <Nav navbar>
-              <LinkContainer to="/widgets">
-                <NavItem eventKey={2}>Widgets</NavItem>
-              </LinkContainer>
-              <LinkContainer to="/survey">
-                <NavItem eventKey={3}>Survey</NavItem>
-              </LinkContainer>
-              <LinkContainer to="/pagination">
-                <NavItem eventKey={4}>Pagination</NavItem>
-              </LinkContainer>
-
               <LinkContainer to="/picks">
                 <NavItem>
                   Picks
                 </NavItem>
               </LinkContainer>
-
             </Nav>
 
             <Nav navbar pullRight>
@@ -151,7 +139,6 @@ export default class App extends Component {
         <div className={styles.appContent}>
           {this.props.children}
         </div>
-        <InfoBar/>
 
       </div>
     );
