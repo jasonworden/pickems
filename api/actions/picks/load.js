@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {createObjectFromArrayOfObjects} from '../../utils/misc';
+import {createObjectFromArrayOfObjects} from '../../../utils/misc';
 import Pick from '../../models/Pick';
 import NFLSeason from '../../models/NFLSeason';
 import Week from '../../models/Week';

@@ -1,9 +1,9 @@
 import {expect} from 'chai';
-import {mapUrl} from '../utils/url';
+import {mapUrlToAction} from '../utils/map_url_to_action';
 
-describe('mapUrl', () => {
+describe('mapUrlToAction', () => {
   it('extracts nothing if both params are undefined', () => {
-    expect(mapUrl(undefined, undefined)).to.deep.equal({
+    expect(mapUrlToAction(undefined, undefined)).to.deep.equal({
       action: null,
       params: []
     });
@@ -14,7 +14,7 @@ describe('mapUrl', () => {
     const splittedUrlPath = url.split('?')[0].split('/').slice(1);
     const availableActions = {a: 1, widget: {c: 1, load: () => 'baz'}};
 
-    expect(mapUrl(availableActions, splittedUrlPath)).to.deep.equal({
+    expect(mapUrlToAction(availableActions, splittedUrlPath)).to.deep.equal({
       action: null,
       params: []
     });
@@ -25,7 +25,7 @@ describe('mapUrl', () => {
     const splittedUrlPath = url.split('?')[0].split('/').slice(1);
     const availableActions = {a: 1, info: {c: 1, load: () => 'baz'}};
 
-    expect(mapUrl(availableActions, splittedUrlPath)).to.deep.equal({
+    expect(mapUrlToAction(availableActions, splittedUrlPath)).to.deep.equal({
       action: null,
       params: []
     });
@@ -36,7 +36,7 @@ describe('mapUrl', () => {
     const splittedUrlPath = url.split('?')[0].split('/').slice(1);
     const availableActions = {a: 1, widget: {c: 1, load: () => 'baz'}};
 
-    expect(mapUrl(availableActions, splittedUrlPath)).to.deep.equal({
+    expect(mapUrlToAction(availableActions, splittedUrlPath)).to.deep.equal({
       action: availableActions.widget.load,
       params: ['param1', 'xzy']
     });
@@ -47,7 +47,7 @@ describe('mapUrl', () => {
     const splittedUrlPath = url.split('?')[0].split('/').slice(1);
     const availableActions = {a: 1, widget: {c: 1, load: () => 'baz'}};
 
-    expect(mapUrl(availableActions, splittedUrlPath)).to.deep.equal({
+    expect(mapUrlToAction(availableActions, splittedUrlPath)).to.deep.equal({
       action: availableActions.widget.load,
       params: ['']
     });
@@ -58,7 +58,7 @@ describe('mapUrl', () => {
     const splittedUrlPath = url.split('?')[0].split('/').slice(1);
     const availableActions = {a: 1, widget: {c: 1, load: () => 'baz'}};
 
-    expect(mapUrl(availableActions, splittedUrlPath)).to.deep.equal({
+    expect(mapUrlToAction(availableActions, splittedUrlPath)).to.deep.equal({
       action: null,
       params: []
     });

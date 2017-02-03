@@ -1,8 +1,10 @@
+import _ from 'lodash';
+
 import Week from '../models/Week';
 import Game from '../models/Game';
 import NFLSeason from '../models/NFLSeason';
-import _ from 'lodash';
-import {createObjectFromArrayOfObjects} from '../utils/misc';
+
+import {createObjectFromArrayOfObjects} from '../../utils/misc';
 
 const DUMMY_CURRENT_WEEK_FOR_NOW = 2;
 

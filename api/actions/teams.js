@@ -1,5 +1,5 @@
 import NFLTeam from '../models/NFLTeam';
-import {createObjectFromArrayOfObjects} from '../utils/misc';
+import {createObjectFromArrayOfObjects} from '../../utils/misc';
 
 export default function teams() {
   return new Promise((resolve) => {

@@ -38,7 +38,9 @@
     "test": "karma start",
     "test-node": "./node_modules/mocha/bin/mocha $(find api -name '*-test.js') --compilers js:babel-core/register",
     "test-node-watch": "./node_modules/mocha/bin/mocha $(find api -name '*-test.js') --compilers js:babel-core/register --watch",
-    "load-fixtures": "babel-node scripts/load_fixtures"
+    "load-fixtures": "babel-node scripts/load_fixtures",
+    "mark_decided_picks": "better-npm-run mark_decided_picks",
+    "activate_db": "mongod --dbpath ./data"
   },
   "betterScripts": {
     "start-prod": {
@@ -93,6 +95,13 @@
       "env": {
         "NODE_ENV": "production"
       }
+    },
+    "mark_decided_picks": {
+      "command": "babel-node scripts/mark_decided_picks --year 2016 --week 2",
+      "env": {
+        "MONGODB_URI": "mongodb://localhost:27017/pickems",
+        "MONGODB_NAME": "pickems"
+      }
     }
   },
   "dependencies": {
@@ -110,6 +119,7 @@
     "babel-register": "^6.3.13",
     "babel-runtime": "^6.3.19",
     "body-parser": "^1.14.1",
+    "chalk": "^1.1.3",
     "compression": "^1.6.0",
     "connect-mongo": "^1.3.2",
     "express": "^4.13.3",
@@ -183,6 +193,7 @@
     "karma-phantomjs-launcher": "^0.2.1",
     "karma-sourcemap-loader": "^0.3.5",
     "karma-webpack": "^1.7.0",
+    "minimist": "^1.2.0",
     "mocha": "^2.3.3",
     "node-sass": "^3.4.2",
     "phantomjs": "^1.9.18",
